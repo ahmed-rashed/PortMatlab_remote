@@ -1,0 +1,47 @@
+C/C++>General>Additionl Include Directories>
+	C:\Program Files %28x86%29\Intel\ComposerXE-2011\mkl\include
+	C:\Program Files\MATLAB\R2011b\extern\include
+	Any other directories you use, e.g.: my Mex folder
+C/C++>Preprocessor>Preprocessor Definitions> add MATLAB_MEX_FILE
+C/C++> change the output file extension to .mexw32 or .mexw64
+Linker>Input>Additional Dependencies>libmx.lib, libmex.lib, and libmat.lib, mkl_rt.lib
+Linker>Input>Module Definition File>ModuleDefinitionFile.def
+
+Debug using matlab.exe
+
+Compiling MEX-Files with the Microsoft Visual C++ IDE
+
+
+Note   This section provides information on how to compile source MEX-files in the Microsoft Visual C++ IDE. It is not totally inclusive. This section assumes that you know how to use the IDE. If you need more information on using the Microsoft Visual C++ IDE, refer to the corresponding Microsoft documentation.
+
+To build MEX-files with the Microsoft Visual C++ integrated development environment:
+
+Create a project and insert your MEX source files.
+
+Create a .def file to export the MEX entry point. On the Project menu, click Add New Item and select Module-Definition File (.def). For example:
+LIBRARY MYFILE
+EXPORTS mexFunction        <-- for a C MEX-file
+   or
+EXPORTS _MEXFUNCTION       <-- for a Fortran MEX-file
+
+
+On the Project menu, click Properties for the project to open the property pages.
+
+Under C/C++ General properties, add the MATLAB include folder, matlab\extern\include, as an additional include folder.
+	If using Fortran 95 MKL functions, Under Fortran General properties, add C:\Program Files (x86)\Intel\ComposerXE-2011\mkl\include\intel64\lp64
+
+
+Under C/C++ Preprocessor properties, add MATLAB_MEX_FILE as a preprocessor definition.
+
+Under Linker General properties, change the output file extension to .mexw32 if you are building for a 32–bit platform or .mexw64 if you are building for a 64–bit platform.
+
+Locate the .lib files for the compiler you are using under matlabroot\extern\lib\win32\microsoft or matlabroot\extern\lib\win64\microsoft. Under Linker Input properties, add libmx.lib, libmex.lib, and libmat.lib as additional dependencies.
+	If using Fortran 95 MKL functions, C:\Program Files (x86)\Intel\ComposerXE-2011\mkl\lib\intel64. Under Linker Input properties, add mkl_lapack95_lp64.lib mkl_blas95_lp64.lib as additional dependencies.
+
+Under Linker Input properties, add the module definition (.def) file you created.
+
+Under Linker Debugging properties, if you intend to debug the MEX-file using the IDE, specify that the build should generate debugging information. For more information about debugging, see Debugging on the Microsoft Windows Platforms.
+
+If you are using a compiler other than the Microsoft Visual C++ compiler, the process for building MEX files is like that described above. In step 4, locate the .lib files for the compiler you are using in a folder of matlabroot\extern\lib\win32 or matlabroot\extern\lib\win64. For example, if you are using an Open Watcom C/C++ compiler, look in matlabroot\extern\lib\win32\watcom.
+
+

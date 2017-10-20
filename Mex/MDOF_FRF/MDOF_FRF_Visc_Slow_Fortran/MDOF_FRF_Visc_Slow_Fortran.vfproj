@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VisualStudioProject ProjectType="typeDynamicLibrary" ProjectCreator="Intel Fortran" Keyword="Dll" Version="11.0" ProjectIdGuid="{912137C3-5A3B-401E-825C-56BB4A65E178}">
+	<Platforms>
+		<Platform Name="x64"/></Platforms>
+	<Configurations>
+		<Configuration Name="Debug|x64" OutputDirectory="$(SolutionDir)\$(PlatformName)\$(ConfigurationName)" ConfigurationType="typeDynamicLibrary">
+				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" DebugInformationFormat="debugEnabled" Optimization="optimizeDisabled" Preprocess="preprocessYes" AdditionalIncludeDirectories="C:\Program Files\MATLAB\R2011b\extern\include;C:\Program Files (x86)\Intel\ComposerXE-2011\mkl\include;C:\Program Files (x86)\Intel\ComposerXE-2011\mkl\include\intel64\lp64;Z:\Documents\MyWork\Courses\ComputerApplications\Mex" PreprocessorDefinitions=" MATLAB_MEX_FILE;__amd64" Interfaces="true" WarnInterfaces="true" Traceback="true" BoundsCheck="true" RuntimeLibrary="rtMultiThreadedDebugDLL"/>
+				<Tool Name="VFLinkerTool" OutputFile="$(OutDir)\$(ProjectName).mexw64" LinkIncremental="linkIncrementalNo" SuppressStartupBanner="true" AdditionalLibraryDirectories="C:\Program Files\MATLAB\R2011b\extern\lib\win64\microsoft;C:\Program Files (x86)\Intel\ComposerXE-2011\mkl\lib\intel64" GenerateDebugInformation="true" SubSystem="subSystemWindows" LinkDLL="true" AdditionalDependencies="libmx.lib libmex.lib libmat.lib mkl_rt.lib mkl_lapack95_lp64.lib mkl_blas95_lp64.lib"/>
+				<Tool Name="VFResourceCompilerTool"/>
+				<Tool Name="VFMidlTool" SuppressStartupBanner="true" TargetEnvironment="midlTargetAMD64"/>
+				<Tool Name="VFCustomBuildTool"/>
+				<Tool Name="VFPreLinkEventTool"/>
+				<Tool Name="VFPreBuildEventTool"/>
+				<Tool Name="VFPostBuildEventTool"/>
+				<Tool Name="VFManifestTool" SuppressStartupBanner="true"/></Configuration>
+		<Configuration Name="Release|x64" OutputDirectory="$(SolutionDir)\$(PlatformName)\$(ConfigurationName)" ConfigurationType="typeDynamicLibrary">
+				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" Preprocess="preprocessYes" AdditionalIncludeDirectories="C:\Program Files\MATLAB\R2011b\extern\include;C:\Program Files (x86)\Intel\ComposerXE-2011\mkl\include;C:\Program Files (x86)\Intel\ComposerXE-2011\mkl\include\intel64\lp64;Z:\Documents\MyWork\Courses\ComputerApplications\Mex" PreprocessorDefinitions=" MATLAB_MEX_FILE;__amd64" RuntimeLibrary="rtMultiThreadedDLL"/>
+				<Tool Name="VFLinkerTool" OutputFile="$(OutDir)\$(ProjectName).mexw64" SuppressStartupBanner="true" AdditionalLibraryDirectories="C:\Program Files\MATLAB\R2011b\extern\lib\win64\microsoft;C:\Program Files (x86)\Intel\ComposerXE-2011\mkl\lib\intel64" SubSystem="subSystemWindows" LinkDLL="true" AdditionalDependencies="libmx.lib libmex.lib libmat.lib mkl_rt.lib mkl_lapack95_lp64.lib mkl_blas95_lp64.lib"/>
+				<Tool Name="VFResourceCompilerTool"/>
+				<Tool Name="VFMidlTool" SuppressStartupBanner="true" TargetEnvironment="midlTargetAMD64"/>
+				<Tool Name="VFCustomBuildTool"/>
+				<Tool Name="VFPreLinkEventTool"/>
+				<Tool Name="VFPreBuildEventTool"/>
+				<Tool Name="VFPostBuildEventTool"/>
+				<Tool Name="VFManifestTool" SuppressStartupBanner="true"/></Configuration></Configurations>
+	<Files>
+		<Filter Name="Header Files" Filter="fi;fd"/>
+		<Filter Name="Resource Files" Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
+		<File RelativePath="..\..\Matrix_LAPACK.f90"/>
+		<File RelativePath="..\..\Matrix_LAPACK_interfaces.f90"/>
+		<File RelativePath="..\..\mex_interfaces.f90"/>
+		<File RelativePath="..\..\mx_interfaces.f90"/></Filter>
+		<Filter Name="Source Files" Filter="f90;for;f;fpp;ftn;def;odl;idl">
+		<File RelativePath=".\MDOF_FRF_VISC_SLOW.f90"/>
+		<File RelativePath=".\MEXFUNCTION.f90"/></Filter></Files>
+	<Globals/></VisualStudioProject>

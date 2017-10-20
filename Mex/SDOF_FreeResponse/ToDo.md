@@ -1,0 +1,1 @@
+Extend these projects to Eclipse IDE and GNU compilers (MinGW under Windows) for both Windows and Linux.
