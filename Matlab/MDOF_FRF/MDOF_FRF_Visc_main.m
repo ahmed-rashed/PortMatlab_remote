@@ -26,15 +26,15 @@ tic
 H_cols0=MDOF_FRF_Visc_slow(M,C,K,w_col,ii_row,jj_row);
 toc
 
-% tic
-% H_cols1=MDOF_FRF_Visc_Slow_Fortran(M,C,K,w_col,ii_row,jj_row);clear MDOF_FRF_Visc_Slow_Fortran;
-% toc
-% max(max(abs(H_cols1-H_cols0)))
-% 
-% tic
-% H_cols2=MDOF_FRF_Visc_Slow_cpp(M,C,K,w_col,ii_row,jj_row);clear MDOF_FRF_Visc_Slow_cpp;
-% toc
-% max(max(abs(H_cols2-H_cols0)))
+tic
+H_cols1=MDOF_FRF_Visc_Slow_Fortran(M,C,K,w_col,ii_row,jj_row);clear MDOF_FRF_Visc_Slow_Fortran;
+toc
+max(max(abs(H_cols1-H_cols0)))
+
+tic
+H_cols2=MDOF_FRF_Visc_Slow_cpp(M,C,K,w_col,ii_row,jj_row);clear MDOF_FRF_Visc_Slow_cpp;
+toc
+max(max(abs(H_cols2-H_cols0)))
 
 %% Fast FRF
 tic
@@ -44,32 +44,32 @@ toc
 max(max(abs(H_cols3-H_cols0)))
 H_cols=H_cols3;
 
-% tic
-% [EigVectors_Normalized1, EigValues_vec1]=MDOF_Eig_Visc_Fortran(M, C, K,isProportional);clear MDOF_Eig_Visc_Fortran;
-% H_cols4=MDOF_FRF_Visc_Fortran(EigValues_vec1, EigVectors_Normalized1, w_col, ii_row, jj_row);clear MDOF_FRF_Visc_Fortran;
-% toc
-% max(max(abs(EigVectors_Normalized1-EigVectors_Normalized0)))
-% max(abs(EigValues_vec1-EigValues_vec0))
-% max(max(abs(H_cols4-H_cols3)))
-% H_cols=H_cols4;
-% 
-% tic
-% [EigVectors_Normalized2, EigValues_vec2]=MDOF_Eig_Visc_cpp(M, C, K,isProportional);clear MDOF_Eig_Visc_cpp;
-% H_cols5=MDOF_FRF_Visc_cpp(EigValues_vec2, EigVectors_Normalized2, w_col, ii_row, jj_row);clear MDOF_FRF_Visc_cpp;
-% toc
-% max(max(abs(EigVectors_Normalized2-EigVectors_Normalized0)))
-% max(abs(EigValues_vec2-EigValues_vec0))
-% max(max(abs(H_cols5-H_cols3)))
-% H_cols=H_cols5;
-% 
-% tic
-% [EigVectors_Normalized3, EigValues_vec3]=MDOF_Eig_Visc_cpp_Armadillo(M, C, K,isProportional);clear MDOF_Eig_Visc_cpp_Armadillo;
-% H_cols6=MDOF_FRF_Visc_cpp_Armadillo(EigValues_vec3, EigVectors_Normalized3, w_col, ii_row, jj_row);clear MDOF_FRF_Visc_cpp_Armadillo;
-% toc
-% max(max(abs(EigVectors_Normalized3-EigVectors_Normalized0)))
-% max(abs(EigValues_vec3-EigValues_vec0))
-% max(max(abs(H_cols6-H_cols3)))
-% H_cols=H_cols6;
+tic
+[EigVectors_Normalized1, EigValues_vec1]=MDOF_Eig_Visc_Fortran(M, C, K,isProportional);clear MDOF_Eig_Visc_Fortran;
+H_cols4=MDOF_FRF_Visc_Fortran(EigValues_vec1, EigVectors_Normalized1, w_col, ii_row, jj_row);clear MDOF_FRF_Visc_Fortran;
+toc
+max(max(abs(EigVectors_Normalized1-EigVectors_Normalized0)))
+max(abs(EigValues_vec1-EigValues_vec0))
+max(max(abs(H_cols4-H_cols3)))
+H_cols=H_cols4;
+
+tic
+[EigVectors_Normalized2, EigValues_vec2]=MDOF_Eig_Visc_cpp(M, C, K,isProportional);clear MDOF_Eig_Visc_cpp;
+H_cols5=MDOF_FRF_Visc_cpp(EigValues_vec2, EigVectors_Normalized2, w_col, ii_row, jj_row);clear MDOF_FRF_Visc_cpp;
+toc
+max(max(abs(EigVectors_Normalized2-EigVectors_Normalized0)))
+max(abs(EigValues_vec2-EigValues_vec0))
+max(max(abs(H_cols5-H_cols3)))
+H_cols=H_cols5;
+
+tic
+[EigVectors_Normalized3, EigValues_vec3]=MDOF_Eig_Visc_cpp_Armadillo(M, C, K,isProportional);clear MDOF_Eig_Visc_cpp_Armadillo;
+H_cols6=MDOF_FRF_Visc_cpp_Armadillo(EigValues_vec3, EigVectors_Normalized3, w_col, ii_row, jj_row);clear MDOF_FRF_Visc_cpp_Armadillo;
+toc
+max(max(abs(EigVectors_Normalized3-EigVectors_Normalized0)))
+max(abs(EigValues_vec3-EigValues_vec0))
+max(max(abs(H_cols6-H_cols3)))
+H_cols=H_cols6;
 
 f_3d=figure;hold all
 

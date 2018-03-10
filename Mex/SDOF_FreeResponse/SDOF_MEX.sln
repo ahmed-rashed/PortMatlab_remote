@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.16
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cpp_MEX", "Cpp_MEX\Cpp_MEX.vcxproj", "{5F96C3D6-524C-4E52-9DBE-EBAB8EA160DE}"
 EndProject
 Project("{6989167D-11E4-40FE-8C1A-2192A86A7E90}") = "Fortran_MEX", "Fortran_MEX\Fortran_MEX.vfproj", "{912137C3-5A3B-401E-825C-56BB4A65E178}"
@@ -25,8 +27,8 @@ Global
 		{5F96C3D6-524C-4E52-9DBE-EBAB8EA160DE}.Release|Mixed Platforms.ActiveCfg = Release|x64
 		{5F96C3D6-524C-4E52-9DBE-EBAB8EA160DE}.Release|Mixed Platforms.Build.0 = Release|x64
 		{5F96C3D6-524C-4E52-9DBE-EBAB8EA160DE}.Release|Win32.ActiveCfg = Release|x64
-		{5F96C3D6-524C-4E52-9DBE-EBAB8EA160DE}.Release|x64.ActiveCfg = Debug|x64
-		{5F96C3D6-524C-4E52-9DBE-EBAB8EA160DE}.Release|x64.Build.0 = Debug|x64
+		{5F96C3D6-524C-4E52-9DBE-EBAB8EA160DE}.Release|x64.ActiveCfg = Release|x64
+		{5F96C3D6-524C-4E52-9DBE-EBAB8EA160DE}.Release|x64.Build.0 = Release|x64
 		{912137C3-5A3B-401E-825C-56BB4A65E178}.Debug|Mixed Platforms.ActiveCfg = Debug|x64
 		{912137C3-5A3B-401E-825C-56BB4A65E178}.Debug|Mixed Platforms.Build.0 = Debug|x64
 		{912137C3-5A3B-401E-825C-56BB4A65E178}.Debug|Win32.ActiveCfg = Debug|x64
@@ -35,8 +37,8 @@ Global
 		{912137C3-5A3B-401E-825C-56BB4A65E178}.Release|Mixed Platforms.ActiveCfg = Release|x64
 		{912137C3-5A3B-401E-825C-56BB4A65E178}.Release|Mixed Platforms.Build.0 = Release|x64
 		{912137C3-5A3B-401E-825C-56BB4A65E178}.Release|Win32.ActiveCfg = Release|x64
-		{912137C3-5A3B-401E-825C-56BB4A65E178}.Release|x64.ActiveCfg = Debug|x64
-		{912137C3-5A3B-401E-825C-56BB4A65E178}.Release|x64.Build.0 = Debug|x64
+		{912137C3-5A3B-401E-825C-56BB4A65E178}.Release|x64.ActiveCfg = Release|x64
+		{912137C3-5A3B-401E-825C-56BB4A65E178}.Release|x64.Build.0 = Release|x64
 		{11CB21AB-9CC3-4C6A-9DCF-245B6273A00E}.Debug|Mixed Platforms.ActiveCfg = Debug|x64
 		{11CB21AB-9CC3-4C6A-9DCF-245B6273A00E}.Debug|Mixed Platforms.Build.0 = Debug|x64
 		{11CB21AB-9CC3-4C6A-9DCF-245B6273A00E}.Debug|Win32.ActiveCfg = Debug|x64
@@ -50,5 +52,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7C8E0F6B-F037-4D16-AB25-AA40B09B4B02}
 	EndGlobalSection
 EndGlobal

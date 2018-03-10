@@ -1,6 +1,6 @@
-C/C++>General>Additionl Include Directories>
-	C:\Program Files %28x86%29\Intel\ComposerXE-2011\mkl\include
-	C:\Program Files\MATLAB\R2011b\extern\include
+C/C++>General>Additional Include Directories>
+	C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2017.5.267\windows\mkl\include
+	C:\Program Files\MATLAB\R2017b\extern\include
 	Any other directories you use, e.g.: my Mex folder
 C/C++>Preprocessor>Preprocessor Definitions> add MATLAB_MEX_FILE
 C/C++> change the output file extension to .mexw32 or .mexw64
@@ -28,7 +28,7 @@ EXPORTS _MEXFUNCTION       <-- for a Fortran MEX-file
 On the Project menu, click Properties for the project to open the property pages.
 
 Under C/C++ General properties, add the MATLAB include folder, matlab\extern\include, as an additional include folder.
-	If using Fortran 95 MKL functions, Under Fortran General properties, add C:\Program Files (x86)\Intel\ComposerXE-2011\mkl\include\intel64\lp64
+	If using Fortran 95 MKL functions, Under Fortran General properties, add C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2017.5.267\windows\mkl\include\intel64\lp64
 
 
 Under C/C++ Preprocessor properties, add MATLAB_MEX_FILE as a preprocessor definition.
@@ -36,7 +36,7 @@ Under C/C++ Preprocessor properties, add MATLAB_MEX_FILE as a preprocessor defin
 Under Linker General properties, change the output file extension to .mexw32 if you are building for a 32–bit platform or .mexw64 if you are building for a 64–bit platform.
 
 Locate the .lib files for the compiler you are using under matlabroot\extern\lib\win32\microsoft or matlabroot\extern\lib\win64\microsoft. Under Linker Input properties, add libmx.lib, libmex.lib, and libmat.lib as additional dependencies.
-	If using Fortran 95 MKL functions, C:\Program Files (x86)\Intel\ComposerXE-2011\mkl\lib\intel64. Under Linker Input properties, add mkl_lapack95_lp64.lib mkl_blas95_lp64.lib as additional dependencies.
+	If using Fortran 95 MKL functions, C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2017.5.267\windows\mkl\lib\intel64_win. Under Linker Input properties, add mkl_lapack95_lp64.lib mkl_blas95_lp64.lib as additional dependencies.
 
 Under Linker Input properties, add the module definition (.def) file you created.
 

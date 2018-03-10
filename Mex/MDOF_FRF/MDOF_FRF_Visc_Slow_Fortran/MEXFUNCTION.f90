@@ -20,8 +20,8 @@ COMPLEX(8), ALLOCATABLE :: H_cols(:,:)
 
 INTERFACE
     FUNCTION MDOF_FRF_VISC_SLOW(M_mat,C_mat,K_mat,N,w_col,n_w_points,n_vec,m_vec,n_n_row)
-        INTEGER(4) N,n_w_points,n_n_row
-        REAL(8) M_mat(N,N),C_mat(N,N),K_mat(N,N),w_col(n_w_points,1),n_vec(n_n_row),m_vec(n_n_row)
+        INTEGER(4), INTENT(IN) :: N,n_w_points,n_n_row
+        REAL(8), INTENT(IN) ::  M_mat(N,N),C_mat(N,N),K_mat(N,N),w_col(n_w_points,1),n_vec(n_n_row),m_vec(n_n_row)
         COMPLEX(8) MDOF_FRF_VISC_SLOW(n_w_points,n_n_row)
 	END FUNCTION MDOF_FRF_VISC_SLOW
 END INTERFACE

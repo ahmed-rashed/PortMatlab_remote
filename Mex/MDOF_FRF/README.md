@@ -3,7 +3,7 @@ Projects in this repositories use:
 1) header files within the Mex directory
 2) Intel MKL
 
-Till now, projects in this directory are tested on MS Visual Studio 2010, Matlab 2011b and Intel Parallel Studio XE 2011.
+Till now, projects in this directory are tested on MS Visual Studio 2017, Matlab 2017b and Intel Parallel Studio XE 2017.
 
 Projects under this directory calculate the FRF of a MDOF system using two methods. Details behind these methods are explained in the graduate course AER 631: Dynamics of Structures.
 Slow method:
