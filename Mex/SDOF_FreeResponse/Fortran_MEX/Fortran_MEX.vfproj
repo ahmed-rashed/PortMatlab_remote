@@ -4,7 +4,7 @@
 		<Platform Name="x64"/></Platforms>
 	<Configurations>
 		<Configuration Name="Debug|x64" OutputDirectory="$(SolutionDir)\$(PlatformName)\$(ConfigurationName)" ConfigurationType="typeDynamicLibrary">
-				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" DebugInformationFormat="debugEnabled" Optimization="optimizeDisabled" Preprocess="preprocessYes" AdditionalIncludeDirectories="C:\Program Files\MATLAB\R2017b\extern\include" PreprocessorDefinitions=" MATLAB_MEX_FILE;__amd64" WarnInterfaces="true" Traceback="true" BoundsCheck="true" RuntimeLibrary="rtMultiThreadedDebug" Interfaces="true"/>
+				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" DebugInformationFormat="debugEnabled" Optimization="optimizeDisabled" Preprocess="preprocessYes" AdditionalIncludeDirectories="C:\Program Files\MATLAB\R2017b\extern\include" PreprocessorDefinitions=" MATLAB_MEX_FILE;__amd64" WarnInterfaces="true" Traceback="true" BoundsCheck="true" RuntimeLibrary="rtMultiThreadedDebugDLL" Interfaces="true"/>
 				<Tool Name="VFLinkerTool" OutputFile="$(OutDir)\$(ProjectName)$(TargetExt)" LinkIncremental="linkIncrementalNo" SuppressStartupBanner="true" AdditionalLibraryDirectories="C:\Program Files\MATLAB\R2017b\extern\lib\win64\microsoft" GenerateDebugInformation="true" SubSystem="subSystemWindows" LinkDLL="true" AdditionalDependencies="libmx.lib libmex.lib libmat.lib"/>
 				<Tool Name="VFResourceCompilerTool"/>
 				<Tool Name="VFMidlTool" SuppressStartupBanner="true" TargetEnvironment="midlTargetAMD64"/>
@@ -14,7 +14,7 @@
 				<Tool Name="VFPostBuildEventTool"/>
 				<Tool Name="VFManifestTool" SuppressStartupBanner="true"/></Configuration>
 		<Configuration Name="Release|x64" OutputDirectory="$(SolutionDir)\$(PlatformName)\$(ConfigurationName)" ConfigurationType="typeDynamicLibrary">
-				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" Preprocess="preprocessYes" AdditionalIncludeDirectories="C:\Program Files\MATLAB\R2017b\extern\include" PreprocessorDefinitions=" MATLAB_MEX_FILE;__amd64"/>
+				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" Preprocess="preprocessYes" AdditionalIncludeDirectories="C:\Program Files\MATLAB\R2017b\extern\include" PreprocessorDefinitions=" MATLAB_MEX_FILE;__amd64" RuntimeLibrary="rtMultiThreadedDebugDLL"/>
 				<Tool Name="VFLinkerTool" OutputFile="$(OutDir)\$(ProjectName)$(TargetExt)" SuppressStartupBanner="true" AdditionalLibraryDirectories="C:\Program Files\MATLAB\R2017b\extern\lib\win64\microsoft" SubSystem="subSystemWindows" LinkDLL="true" AdditionalDependencies="libmx.lib libmex.lib libmat.lib"/>
 				<Tool Name="VFResourceCompilerTool"/>
 				<Tool Name="VFMidlTool" SuppressStartupBanner="true" TargetEnvironment="midlTargetAMD64"/>

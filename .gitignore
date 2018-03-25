@@ -280,3 +280,5 @@ docs/_build/
 target/
 
 *.pdf
+
+*.u2d
