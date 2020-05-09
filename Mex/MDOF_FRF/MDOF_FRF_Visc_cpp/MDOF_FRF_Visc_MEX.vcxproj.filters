@@ -34,10 +34,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MDOF_FRF_Visc.cpp">
+    <ClCompile Include="mexFunction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="mexFunction.cpp">
+    <ClCompile Include="MDOF_FRF_Visc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

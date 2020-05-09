@@ -20,16 +20,16 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\MatrixOperations.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\a_matrices.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\a_matrices_internals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\valarray_ComplexRealOperators.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\a_matrices.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MatrixOperations.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -4,8 +4,8 @@
 		<Platform Name="x64"/></Platforms>
 	<Configurations>
 		<Configuration Name="Debug|x64" OutputDirectory="$(SolutionDir)\$(PlatformName)\$(ConfigurationName)" ConfigurationType="typeDynamicLibrary">
-				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" DebugInformationFormat="debugEnabled" Optimization="optimizeDisabled" Preprocess="preprocessYes" AdditionalIncludeDirectories="C:\Program Files\MATLAB\R2017b\extern\include;$(MKLIncludeDir)" PreprocessorDefinitions=" MATLAB_MEX_FILE;__amd64" WarnInterfaces="true" Traceback="true" BoundsCheck="true" RuntimeLibrary="rtMultiThreadedDebug" UseMkl="mklSequential" Interfaces="true"/>
-				<Tool Name="VFLinkerTool" OutputFile="$(OutDir)\$(ProjectName)$(TargetExt)" LinkIncremental="linkIncrementalNo" SuppressStartupBanner="true" AdditionalLibraryDirectories="C:\Program Files\MATLAB\R2017b\extern\lib\win64\microsoft;$(MKLLibDir)" GenerateDebugInformation="true" SubSystem="subSystemWindows" LinkDLL="true" AdditionalDependencies="libmx.lib libmex.lib libmat.lib mkl_lapack95_lp64.lib mkl_blas95_lp64.lib"/>
+				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" DebugInformationFormat="debugEnabled" Optimization="optimizeDisabled" Preprocess="preprocessYes" AdditionalIncludeDirectories="$(MATLABROOT)/extern/include;$(MKLIncludeDir)" PreprocessorDefinitions="__amd64;MX_COMPAT_64;MATLAB_MEXCMD_RELEASE=R2018a;USE_MEX_CMD;MATLAB_MEX_FILE" WarnInterfaces="true" IntegerKIND="integerKIND8" Traceback="true" BoundsCheck="true" RuntimeLibrary="rtMultiThreadedDebug" UseMkl="mklSequential" Interfaces="true"/>
+				<Tool Name="VFLinkerTool" OutputFile="$(OutDir)\$(ProjectName)$(TargetExt)" LinkIncremental="linkIncrementalNo" SuppressStartupBanner="true" AdditionalLibraryDirectories="$(MATLABROOT)/extern/lib/win64/microsoft;$(MKLLibDir)" GenerateDebugInformation="true" SubSystem="subSystemWindows" LinkDLL="true" AdditionalDependencies="libmx.lib libmex.lib libmat.lib mkl_blas95_ilp64.lib mkl_lapack95_ilp64.lib mkl_intel_ilp64.lib mkl_intel_thread.lib mkl_core.lib libiomp5md.lib"/>
 				<Tool Name="VFResourceCompilerTool"/>
 				<Tool Name="VFMidlTool" SuppressStartupBanner="true" TargetEnvironment="midlTargetAMD64"/>
 				<Tool Name="VFCustomBuildTool"/>
@@ -14,8 +14,8 @@
 				<Tool Name="VFPostBuildEventTool"/>
 				<Tool Name="VFManifestTool" SuppressStartupBanner="true"/></Configuration>
 		<Configuration Name="Release|x64" OutputDirectory="$(SolutionDir)\$(PlatformName)\$(ConfigurationName)" ConfigurationType="typeDynamicLibrary">
-				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" Preprocess="preprocessYes" AdditionalIncludeDirectories="C:\Program Files\MATLAB\R2017b\extern\include;$(MKLIncludeDir)" PreprocessorDefinitions=" MATLAB_MEX_FILE;__amd64" UseMkl="mklSequential"/>
-				<Tool Name="VFLinkerTool" OutputFile="$(OutDir)\$(ProjectName)$(TargetExt)" SuppressStartupBanner="true" AdditionalLibraryDirectories="C:\Program Files\MATLAB\R2017b\extern\lib\win64\microsoft;$(MKLLibDir)" SubSystem="subSystemWindows" LinkDLL="true" AdditionalDependencies="libmx.lib libmex.lib libmat.lib mkl_lapack95_lp64.lib mkl_blas95_lp64.lib"/>
+				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" Preprocess="preprocessYes" AdditionalIncludeDirectories="$(MATLABROOT)/extern/include;$(MKLIncludeDir)" PreprocessorDefinitions="__amd64;NDEBUG;MX_COMPAT_64;MATLAB_MEXCMD_RELEASE=R2018a;USE_MEX_CMD;MATLAB_MEX_FILE" IntegerKIND="integerKIND8" UseMkl="mklSequential"/>
+				<Tool Name="VFLinkerTool" OutputFile="$(OutDir)\$(ProjectName)$(TargetExt)" SuppressStartupBanner="true" AdditionalLibraryDirectories="$(MATLABROOT)/extern/lib/win64/microsoft;$(MKLLibDir)" SubSystem="subSystemWindows" LinkDLL="true" AdditionalDependencies="libmx.lib libmex.lib libmat.lib mkl_blas95_ilp64.lib mkl_lapack95_ilp64.lib mkl_intel_ilp64.lib mkl_intel_thread.lib mkl_core.lib libiomp5md.lib"/>
 				<Tool Name="VFResourceCompilerTool"/>
 				<Tool Name="VFMidlTool" SuppressStartupBanner="true" TargetEnvironment="midlTargetAMD64"/>
 				<Tool Name="VFCustomBuildTool"/>
