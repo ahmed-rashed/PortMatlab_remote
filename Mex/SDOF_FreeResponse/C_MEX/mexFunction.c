@@ -31,9 +31,9 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 	x0=mxGetScalar(prhs[2]);
 	v0=mxGetScalar(prhs[3]);
 	N=mxGetNumberOfElements(prhs[4]);
-	t = mxGetPr(prhs[4]); 
+	t = mxGetDoubles(prhs[4]); 
 	plhs[0] = mxCreateDoubleMatrix(mxGetM(prhs[4]),mxGetN(prhs[4]), mxREAL); // Create the output matrix with the same size as t
-	x = mxGetPr(plhs[0]);
+	x = mxGetDoubles(plhs[0]);
 
 	// Do the actual computations
 	Free_Response(&w_n , &zeta , &x0 , &v0 , t , x , &N);

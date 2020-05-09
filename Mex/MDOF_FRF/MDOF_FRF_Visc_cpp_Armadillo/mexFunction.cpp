@@ -1,67 +1,102 @@
 #include <complex>
 
-#include "mex.h"
+#include "ArmadilloMatrixOperations.hpp"
 
-#include "ArmadilloMatrixOperations.h"
-#include "armaMex.hpp"
+#include "mex.hpp"
+#include "mexAdapter.hpp"
+
+using namespace matlab::data;
+using matlab::mex::ArgumentList;
 
 using namespace std;
 using namespace arma;
 
 Mat<complex<double> > MDOF_FRF_Visc(const Col<complex<double> >& EigValues_col, const Mat<complex<double> >& EigVectors_Normalized, const Mat<double>& w_column, const Row<double>& n_C, const Row<double>& m_C);
 
-void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
-{ 
-    // Check for proper number of arguments
-    if (nrhs != 5)
-		mexErrMsgTxt("Dear student, This function needs 5 inputs."); 
+class MexFunction : public matlab::mex::Function
+{
+	ArrayFactory factory;
+	const std::shared_ptr<matlab::engine::MATLABEngine> matlabPtr = getEngine();
 
-	if (nlhs > 1)
-		mexErrMsgTxt("Dear student, this function returns only one output."); 
-    
-	size_t N=mxGetM(prhs[1]);
-	size_t n_cols=mxGetN(prhs[1]);
-	if (2*N != n_cols)
-		mexErrMsgTxt("Dear student, The EigVectors_Normalized matrix must have columns twice as many as be rows.");
-
-	if (mxGetNumberOfElements(prhs[0]) != 2*N)
-		mexErrMsgTxt("Dear student, the EigValues_col vector must have length identical to the number of columns of EigVectors_Normalized matrix.");
-
-	if (mxGetN(prhs[2]) != 1)
-		mexErrMsgTxt("Dear student, w_column must be a column vector.");
-	size_t n_w=mxGetM(prhs[2]);
-
-	if (mxGetM(prhs[3]) != 1)
-		mexErrMsgTxt("Dear student, n_row must be a row vector.");
-	size_t n_col=mxGetN(prhs[3]);
-
-	if ((mxGetM(prhs[4]) != 1) || (mxGetN(prhs[4]) != n_col))
-		mexErrMsgTxt("Dear student, m_row must have size identical to n_row.");
-
-	//Inputs
-	Col<complex<double> > EigValues_col=armaGetCx(prhs[0]);
-	Mat<complex<double> > EigVectors_Normalized=armaGetCx(prhs[1]);
-	Mat<double> w_column=armaGetPr(prhs[2]);
-	Row<double> n_C=armaGetPr(prhs[3]);
-	Row<double> m_C=armaGetPr(prhs[4]);
-
-	n_C=n_C-1;	//Convert from Matlab 1 based indexing to C 0 based indexing
-	m_C=m_C-1;	//Convert from Matlab 1 based indexing to C 0 based indexing
-
-	//Do Actual Computations
-	Mat<complex<double> > H_w_n_m_cols(n_w,n_col);
-	try
+public:
+	void operator()(ArgumentList outputs, ArgumentList inputs)
 	{
-		H_w_n_m_cols=MDOF_FRF_Visc(EigValues_col, EigVectors_Normalized, w_column, n_C, m_C);
+		size_t N, N_cols, N_w, N_col;
+		checkArguments(outputs, inputs, N, N_cols, N_w, N_col);
+
+		Col<complex<double> > EigValues_col(2 * N);
+		for (size_t n = 0; n < 2 * N; n++)
+			EigValues_col(n) = inputs[0][n];
+
+		Mat<complex<double> > EigVectors_Normalized(N, N_cols);
+		for (size_t n = 0; n < N*N_cols; n++)
+			EigVectors_Normalized(n) = inputs[1][n];
+
+		Mat<double> w_column(N_w,1);
+		for (size_t n = 0; n < N_w; n++)
+			w_column(n) = inputs[2][n];
+
+		Row<double> n_C(N_col),m_C(N_col);
+		for (size_t n = 0; n < N_col; n++)
+		{
+			n_C(n) = inputs[3][n];
+			m_C(n) = inputs[4][n];
+		}
+
+		n_C=n_C-1;	//Convert from Matlab 1 based indexing to C 0 based indexing
+		m_C=m_C-1;	//Convert from Matlab 1 based indexing to C 0 based indexing
+
+		//Do Actual Computations
+		Mat<complex<double> > H_w_n_m_cols(N_w,N_col);
+		try
+		{
+			H_w_n_m_cols=MDOF_FRF_Visc(EigValues_col, EigVectors_Normalized, w_column, n_C, m_C);
+		}
+		catch (std::logic_error exceptt)
+		{
+			matlabPtr->feval(u"error", 0,
+				std::vector<Array>({ factory.createScalar(exceptt.what()) }));
+		}
+
+		//Outputs
+		outputs[0] = factory.createArray<complex<double>>({ N_w, N_col }, H_w_n_m_cols.begin(), H_w_n_m_cols.end());	// Create the 1st output
+
+		return;
 	}
-	catch (std::logic_error exceptt)
+
+	void checkArguments(ArgumentList outputs, ArgumentList inputs, size_t &N, size_t &N_cols, size_t &N_w, size_t &N_col)
 	{
-		mexErrMsgTxt(exceptt.what());
-	}
+		if (inputs.size() != 5)
+			matlabPtr->feval(u"error", 0,
+				std::vector<Array>({ factory.createScalar("Dear student, This function needs 5 inputs.") }));
 
-	//Outputs
-	plhs[0] = armaCreateMxMatrix(n_w,n_col,mxDOUBLE_CLASS,mxCOMPLEX);	// Create the output matrix
-	armaSetCx(plhs[0], H_w_n_m_cols);
+		if (outputs.size() > 1)
+			matlabPtr->feval(u"error", 0,
+				std::vector<Array>({ factory.createScalar("Dear student, this function returns only one output.") }));
 
-	return;
-}
+		N = inputs[1].getDimensions()[0];
+		N_cols = inputs[1].getDimensions()[1];
+		if (2 * N != N_cols)
+			matlabPtr->feval(u"error", 0,
+				std::vector<Array>({ factory.createScalar("Dear student, The EigVectors_Normalized matrix must have columns twice as many as be rows.") }));
+
+		if (inputs[0].getNumberOfElements() != 2 * N)
+			matlabPtr->feval(u"error", 0,
+				std::vector<Array>({ factory.createScalar("Dear student, the EigValues_col vector must have length identical to the number of columns of EigVectors_Normalized matrix.") }));
+
+		if (inputs[2].getDimensions()[1] != 1)
+			matlabPtr->feval(u"error", 0,
+				std::vector<Array>({ factory.createScalar("Dear student, w_column must be a column vector.") }));
+		N_w = inputs[2].getDimensions()[0];
+
+		if (inputs[3].getDimensions()[0] != 1)
+			matlabPtr->feval(u"error", 0,
+				std::vector<Array>({ factory.createScalar("Dear student, n_row must be a row vector.") }));
+		N_col = inputs[3].getDimensions()[1];
+
+		if ((inputs[4].getDimensions()[0] != 1) || (inputs[4].getDimensions()[1] != N_col))
+			matlabPtr->feval(u"error", 0,
+				std::vector<Array>({ factory.createScalar("Dear student, m_row must have size identical to n_row.") }));
+	};
+};
+

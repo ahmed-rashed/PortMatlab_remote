@@ -1,7 +1,7 @@
 #include <complex>
 #include <math.h>
 
-#include "ArmadilloMatrixOperations.h"
+#include "ArmadilloMatrixOperations.hpp"
 
 using namespace std;
 using namespace arma;

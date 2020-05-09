@@ -1,77 +1,84 @@
 #include <complex>
 #include <valarray>
-#include "mex.h"
-#include "valarray_ComplexRealOperators.h"
-#include "MatrixOperations.h"
-#include "a_matrices.h"
+#include "valarray_ComplexRealOperators.hpp"
+#include "MexOperations.hpp"
+#include "a_matrices.hpp"
+#include "mex.hpp"
+#include "mexAdapter.hpp"
 
 using namespace std;
 using namespace a_matrices;
 
+using namespace matlab::data;
+using matlab::mex::ArgumentList;
+
 void MDOF_Eig_Visc(const Matrix<double>& M_mat,const Matrix<double>& C_mat,const Matrix<double>& K_mat, const bool& isPropotional, Matrix<complex<double> >& EigVectors_Normalized, valarray<complex<double> >& EigValues_vec);
 
-void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
-{ 
-    // Check for proper number of arguments
-    if ((nrhs != 3) && (nrhs != 4))
-		mexErrMsgTxt("Dear student, This function takes 3 or 4 inputs."); 
+class MexFunction : public matlab::mex::Function
+{
+	ArrayFactory factory;
+	const std::shared_ptr<matlab::engine::MATLABEngine> matlabPtr = getEngine();
 
-	if ((nlhs != 1) && (nlhs != 2))
-		mexErrMsgTxt("Dear student, this function returns one or two outputs only.");
-    
-	size_t N=mxGetM(prhs[0]);
-	if (N != mxGetN(prhs[0]))
-		mexErrMsgTxt("Dear student, The M matrix must be square.");
-
-	for (unsigned int n=1; n<3; n++)
+public:
+	void operator()(ArgumentList outputs, ArgumentList inputs)
 	{
-		if ((mxGetM(prhs[n]) != N) || (mxGetN(prhs[n]) != N))
-			mexErrMsgTxt("Dear student, the C and K matrices must be square with size identical to M.");    //Improve this
-	}
+		size_t N;
+		checkArguments(outputs, inputs, N);
 
-	if (nrhs == 4)
-		if (!mxIsLogicalScalar(prhs[3]))
-			mexErrMsgTxt("Dear student, isPropotional must be a logical scalar/integer.");
+		Matrix<double> M_mat=ColMajor2RowMajor(static_cast<TypedArray<double>>(inputs[0]));
+		Matrix<double> C_mat=ColMajor2RowMajor(static_cast<TypedArray<double>>(inputs[1]));
+		Matrix<double> K_mat=ColMajor2RowMajor(static_cast<TypedArray<double>>(inputs[2]));
 
-	//Inputs
-	Matrix<double> M_mat=ColMajor2RowMajor(N,N,mxGetPr(prhs[0]));
-	Matrix<double> C_mat=ColMajor2RowMajor(N,N,mxGetPr(prhs[1]));
-	Matrix<double> K_mat=ColMajor2RowMajor(N,N,mxGetPr(prhs[2]));
+		bool isPropotional=false;
+		if (inputs.size() == 4)
+			isPropotional= inputs[3][0];
 
-	bool isPropotional=false;
-	if (nrhs == 4)
-		isPropotional=mxIsLogicalScalarTrue(prhs[3]);
-
-	//Do Actual Computations
-	Matrix<complex<double> > EigVectors_Normalized(N,2*N);
-	valarray<complex<double> > EigVal_vec(2*N);
-	try
-	{
-		MDOF_Eig_Visc(M_mat,C_mat,K_mat,isPropotional, EigVectors_Normalized, EigVal_vec);
-	}
-	catch (char str[])
-	{
-		mexErrMsgTxt(str);
-	}
-
-	//Outputs
-	plhs[0] = mxCreateDoubleMatrix(N,2*N, mxCOMPLEX); // Create the 1st output matrix
-	double* EigVectors_Normalized_out_real_p=mxGetPr(plhs[0]);
-	double* EigVectors_Normalized_out_imaginary_p=mxGetPi(plhs[0]);
-	ComplexRowMajor2ColMajor(EigVectors_Normalized,EigVectors_Normalized_out_real_p,EigVectors_Normalized_out_imaginary_p);
-
-	if (nlhs > 1)
-	{
-		plhs[1] = mxCreateDoubleMatrix(2*N,1, mxCOMPLEX); // Create the 2nd output matrix
-		double* EigValues_mat_out_real_p=mxGetPr(plhs[1]);
-		double* EigValues_mat_out_imaginary_p=mxGetPi(plhs[1]);
-
-		for (size_t i=0; i<2*N;i++)
+		//Do Actual Computations
+		Matrix<complex<double> > EigVectors_Normalized(N,2*N);
+		valarray<complex<double> > EigVal_vec(2*N);
+		try
 		{
-			EigValues_mat_out_real_p[i]=EigVal_vec[i].real();
-			EigValues_mat_out_imaginary_p[i]=EigVal_vec[i].imag();
+			MDOF_Eig_Visc(M_mat,C_mat,K_mat,isPropotional, EigVectors_Normalized, EigVal_vec);
 		}
+		catch (char str[])
+		{
+			matlabPtr->feval(u"error", 0,
+				std::vector<Array>({ factory.createScalar(str) }));
+		}
+
+		//Outputs
+		outputs[0] = std::move(RowMajor2ColMajor(EigVectors_Normalized));
+		if (outputs.size() > 1)
+			outputs[1] = factory.createArray<complex<double> >({1, 2 * N }, &EigVal_vec[0], &EigVal_vec[2*N]);
+
+		return;
 	}
 
-	return;
-}
+	void checkArguments(ArgumentList outputs, ArgumentList inputs, size_t &N)
+	{
+		if ((inputs.size() != 3) && (inputs.size() != 4))
+			matlabPtr->feval(u"error", 0,
+				std::vector<Array>({ factory.createScalar("Dear student, This function takes 3 or 4 inputs.") }));
+
+		if ((outputs.size() != 1) && (outputs.size() != 2))
+			matlabPtr->feval(u"error", 0,
+				std::vector<Array>({ factory.createScalar("Dear student, this function returns one or two outputs only.") }));
+
+		N = inputs[0].getDimensions()[0];
+		if (N != inputs[0].getDimensions()[1])
+			matlabPtr->feval(u"error", 0,
+				std::vector<Array>({ factory.createScalar("Dear student, The M matrix must be square.") }));
+
+		for (size_t n = 1; n < 3; n++)
+		{
+			if ((inputs[n].getDimensions()[0] != N) || (inputs[n].getDimensions()[1] != N))
+				matlabPtr->feval(u"error", 0,
+					std::vector<Array>({ factory.createScalar("Dear student, the C and K matrices must be square with size identical to M.") }));    //Improve this
+		}
+
+		if (inputs.size() == 4)
+			if (inputs[3].getType() != ArrayType::LOGICAL || inputs[3].getNumberOfElements() != 1)
+				matlabPtr->feval(u"error", 0,
+					std::vector<Array>({ factory.createScalar("Dear student, isPropotional must be a logical scalar/integer.") }));
+	};
+};

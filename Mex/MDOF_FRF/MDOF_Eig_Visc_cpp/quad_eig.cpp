@@ -3,10 +3,10 @@
 #include <math.h>
 #include <algorithm>
 #include <numeric>
-#include "valarray_ComplexRealOperators.h"
-#include "Matrix_BLAS.h"
-#include "Matrix_LAPACK.h"
-#include "a_matrices.h"
+#include "valarray_ComplexRealOperators.hpp"
+#include "Matrix_BLAS.hpp"
+#include "Matrix_LAPACK.hpp"
+#include "a_matrices.hpp"
 
 using namespace std;
 using namespace a_matrices;

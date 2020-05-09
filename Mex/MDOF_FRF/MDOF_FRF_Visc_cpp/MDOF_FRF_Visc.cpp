@@ -1,10 +1,10 @@
 #include <complex>
 #include <valarray>
 #include <math.h>
-#include "valarray_ComplexRealOperators.h"
-#include "Matrix_BLAS.h"
-#include "MatrixOperations.h"
-#include "a_matrices.h"
+#include "valarray_ComplexRealOperators.hpp"
+#include "Matrix_BLAS.hpp"
+#include "MatrixOperations.hpp"
+#include "a_matrices.hpp"
 
 using namespace std;
 using namespace a_matrices;

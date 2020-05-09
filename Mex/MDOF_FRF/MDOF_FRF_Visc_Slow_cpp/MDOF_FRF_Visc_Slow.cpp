@@ -1,9 +1,9 @@
 #include <complex>
 #include <valarray>
 #include <math.h>
-#include "valarray_ComplexRealOperators.h"
-#include "Matrix_LAPACK.h"
-#include "a_matrices.h"
+#include "valarray_ComplexRealOperators.hpp"
+#include "Matrix_LAPACK.hpp"
+#include "a_matrices.hpp"
 
 using namespace std;
 using namespace a_matrices;
@@ -17,7 +17,7 @@ Matrix<complex<double> > MDOF_FRF_Visc_Slow(const Matrix<double>& M_mat,const Ma
 
 	Matrix<complex<double> > H_cols(n_w_points,n_index_vec);
 
-	for (unsigned int n=0; n<n_w_points; n++)
+	for (size_t n=0; n<n_w_points; n++)
 	{
 		Matrix<complex<double> > H_w_mat=SymInv(-w_col[n][0]*w_col[n][0]*M_mat+i*w_col[n][0]*C_mat+K_mat);
 

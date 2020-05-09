@@ -2,7 +2,7 @@
 
 #include <math.h>
 
-#include "ArmadilloMatrixOperations.h"
+#include "ArmadilloMatrixOperations.hpp"
 //#include "armaMex.hpp"
 
 using namespace std;
