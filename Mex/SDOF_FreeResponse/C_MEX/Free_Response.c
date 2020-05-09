@@ -1,3 +1,4 @@
+#include <stddef.h>
 #include <math.h>
 
 void Free_Response(const double* const p_w_n, const double* const p_zeta, const double* const p_x0, const double* const p_v0, const double t_vec[], double x_vec[], const size_t* const p_N)

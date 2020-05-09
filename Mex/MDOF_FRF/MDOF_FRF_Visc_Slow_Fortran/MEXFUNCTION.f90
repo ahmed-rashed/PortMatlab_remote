@@ -9,7 +9,7 @@ USE MX_INTERFACES
 USE MEX_INTERFACES
 
 IMPLICIT NONE
-!DEC$ ATTRIBUTES DLLEXPORT :: MEXFUNCTION
+!GCC$ ATTRIBUTES DLLEXPORT :: MEXFUNCTION
 MWPOINTER PLHS(*), PRHS(*)
 INTEGER(4) NLHS, NRHS
 mwSize NN
@@ -93,4 +93,4 @@ H_cols=MDOF_FRF_VISC_SLOW(M_mat,C_mat,K_mat,N,w_col,n_w_points,n_row,m_row,n_n_r
 PLHS(1)=mxCreateDoubleMatrix(n_w_points,n_n_row,1)  ! Create the output matrix
 CALL mxCopyComplex16ToPtr(H_cols, mxGetPr(PLHS(1)), mxGetPi(PLHS(1)), n_w_points*n_n_row)
 
-END SUBROUTINE mexFunction
+END SUBROUTINE MEXFUNCTION

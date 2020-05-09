@@ -4,21 +4,22 @@ SUBROUTINE MEXFUNCTION(NLHS, PLHS, NRHS, PRHS)
 ! This subroutine is the main gateway to MATLAB.  When a MEX function
 !  is executed MATLAB calls this subroutine
 
-USE IFPORT
+!USE IFPORT
 USE MX_INTERFACES
 USE MEX_INTERFACES
 
 IMPLICIT NONE
-!DEC$ ATTRIBUTES DLLEXPORT :: MEXFUNCTION
+!GCC$ ATTRIBUTES DLLEXPORT :: MEXFUNCTION
 MWPOINTER PLHS(*), PRHS(*)
 INTEGER(4) NLHS, NRHS
 REAL(8) w_n,zeta,x0,v0
 mwSize N
+INTEGER(4) NN
 REAL(8), ALLOCATABLE :: t(:),x(:)
 
 INTERFACE
     FUNCTION FREE_RESPONSE(w_n,zeta,x0,v0,t,N)
-        INTEGER(4) N
+        INTEGER(4), INTENT(IN) :: N
         REAL(8) w_n,zeta,x0,v0,t(N),FREE_RESPONSE(N)
 	END FUNCTION FREE_RESPONSE
 END INTERFACE
@@ -59,9 +60,10 @@ N=mxGetNumberOfElements(PRHS(5))
 ALLOCATE(t(N),x(N))
 CALL mxCopyPtrToReal8(mxGetPr(PRHS(5)), t, N)
 
-x=FREE_RESPONSE(w_n,zeta,x0,v0,t,N)
+NN=N
+x=FREE_RESPONSE(w_n,zeta,x0,v0,t,NN)
 
 PLHS(1)=mxCreateDoubleMatrix(mxGetM(PRHS(5)),mxGetN(PRHS(5)),0)
 CALL mxCopyReal8ToPtr(x, mxGetPr(PLHS(1)), N)
 
-END SUBROUTINE mexFunction
+END SUBROUTINE MEXFUNCTION

@@ -1,4 +1,6 @@
+#include <stddef.h>
 #include "mex.h"
+
 void Free_Response(const double* const p_w_n, const double* const p_zeta, const double* const p_x0, const double* const p_v0, const double t[], double x[], const size_t* const p_N);
 void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 { 

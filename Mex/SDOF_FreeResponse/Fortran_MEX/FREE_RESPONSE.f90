@@ -1,6 +1,6 @@
 FUNCTION FREE_RESPONSE(w_n,zeta,x0,v0,t_vec,N)
 IMPLICIT NONE
-INTEGER(4) N
+INTEGER(4), INTENT(IN) :: N
 REAL(8) w_n,zeta,x0,v0,t_vec(N),FREE_RESPONSE(N)
 REAL(8) A,theta,w_d,B,phi,temp,C,D
 

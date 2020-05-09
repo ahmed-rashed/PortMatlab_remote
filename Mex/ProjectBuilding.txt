@@ -1,47 +1,78 @@
-C/C++>General>Additional Include Directories>
-	C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2017.5.267\windows\mkl\include
-	C:\Program Files\MATLAB\R2017b\extern\include
-	Any other directories you use, e.g.: my Mex folder
-C/C++>Preprocessor>Preprocessor Definitions> add MATLAB_MEX_FILE
-C/C++> change the output file extension to .mexw32 or .mexw64
-Linker>Input>Additional Dependencies>libmx.lib, libmex.lib, and libmat.lib, mkl_rt.lib
-Linker>Input>Module Definition File>ModuleDefinitionFile.def
-
-Debug using matlab.exe
-
-Compiling MEX-Files with the Microsoft Visual C++ IDE
+This is based on www.mathworks.com/help/matlab/matlab_external/compiling-mex-files-with-the-microsoft-visual-c-ide.html
 
 
-Note   This section provides information on how to compile source MEX-files in the Microsoft Visual C++ IDE. It is not totally inclusive. This section assumes that you know how to use the IDE. If you need more information on using the Microsoft Visual C++ IDE, refer to the corresponding Microsoft documentation.
+To build MEX-files under Microsoft Visual Studio: (Windows only)
+	This applies to the following compilers:
+		Microsoft Visual C++
+		Intel Fortran Compiler
+	
+	Create a project (shared library project, or dynamic link library project, or otherwise empty project)
 
-To build MEX-files with the Microsoft Visual C++ integrated development environment:
+	Project>Properties>General>Configuration Type>Dynamic Library (.dll)
+	
+	Project>Properties>Debugging>Command>
+		Add matlabroot\\bin\matlab.exe
+	
+	Add your MEX source files to the created project
 
-Create a project and insert your MEX source files.
+	Project menu>Add New Item>Module-Definition File (.def)
+		Specify the names of functions/subroutines exported from the dynamic library, for example:
+			EXPORTS mexFunction        <-- for a C/C++ MEX-file
+			or
+			EXPORTS _MEXFUNCTION       <-- for a Fortran MEX-file (Alternatively you can add "!DEC$ ATTRIBUTES DLLEXPORT :: MEXFUNCTION" inside the MEXFUNCTION subroutine)
 
-Create a .def file to export the MEX entry point. On the Project menu, click Add New Item and select Module-Definition File (.def). For example:
-LIBRARY MYFILE
-EXPORTS mexFunction        <-- for a C MEX-file
-   or
-EXPORTS _MEXFUNCTION       <-- for a Fortran MEX-file
+	Configure the compiler as follows (This assumes a C/C++ project. If it is a Fortran project, replace C/C++ with Fortran)
+	  Project>Properties>C/C++>
+		General>Additional Include Directories> add the following paths
+			add matlabroot\\extern\include
+			add the directories with other headers you use (for example: Intel MKL or Armadiello)
+
+		Preprocessor>Preprocessor Definition> add MATLAB_MEX_FILE
+		
+		Fortran>Preprocessor>Preprocess Source File> Yes (/fpp)	(For Fortran projects only)
+
+	Configure the Linker as follows
+	  Project>Properties>Linker>
+			General>Additional Library Directories>
+				add matlabroot\\extern\lib\
+				Add the directories with other libraries you use (for example: Intel MKL or Armadiello)
+
+			Input>
+				Additional Dependencies>
+					add libmx.lib, libmex.lib, and libmat.lib
+					Add any other libraries you use (for example: Intel MKL or Armadiello)
+
+				Module Definition File> add the filename of the .def file you created
 
 
-On the Project menu, click Properties for the project to open the property pages.
+To build MEX-files under Eclipse IDE: (Windows and Linux)
+	This applies to the following GCC compilers:
+		gcc C compiler
+		g++ C++ compiler
+		gfortran Fortran Compiler
 
-Under C/C++ General properties, add the MATLAB include folder, matlab\extern\include, as an additional include folder.
-	If using Fortran 95 MKL functions, Under Fortran General properties, add C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2017.5.267\windows\mkl\include\intel64\lp64
+		In Eclipse, Fortran projects are buggy/less-mature/less-complete than C and C++ projects
+		Pass the compiler option -cpp to enable preprocessing in Fortran source files [https://gcc.gnu.org/onlinedocs/gfortran/Preprocessing-Options.html]
+		
+	-lmx -lmex -lmat (libraries)
+	
+	Other compiler directives [matlabroot\\bin\mexopts.sh]
+	Specific directive for each compiler are in [matlabroot\\bin\arch\mexopts\*.xml] This has not been updated here yet
+		gcc C compiler
+			-D_GNU_SOURCE
+			-fexceptions
+			-fPIC
+			Release (optimization) -DNDEBUG
+
+		g++ C++ compiler
+			-D_GNU_SOURCE
+			-fPIC
+			Release (optimization) -DNDEBUG
+
+		gfortran Fortran Compiler
+			-fexceptions
+			-fPIC
+			Release (optimization) -DNDEBUG
 
 
-Under C/C++ Preprocessor properties, add MATLAB_MEX_FILE as a preprocessor definition.
-
-Under Linker General properties, change the output file extension to .mexw32 if you are building for a 32–bit platform or .mexw64 if you are building for a 64–bit platform.
-
-Locate the .lib files for the compiler you are using under matlabroot\extern\lib\win32\microsoft or matlabroot\extern\lib\win64\microsoft. Under Linker Input properties, add libmx.lib, libmex.lib, and libmat.lib as additional dependencies.
-	If using Fortran 95 MKL functions, C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2017.5.267\windows\mkl\lib\intel64_win. Under Linker Input properties, add mkl_lapack95_lp64.lib mkl_blas95_lp64.lib as additional dependencies.
-
-Under Linker Input properties, add the module definition (.def) file you created.
-
-Under Linker Debugging properties, if you intend to debug the MEX-file using the IDE, specify that the build should generate debugging information. For more information about debugging, see Debugging on the Microsoft Windows Platforms.
-
-If you are using a compiler other than the Microsoft Visual C++ compiler, the process for building MEX files is like that described above. In step 4, locate the .lib files for the compiler you are using in a folder of matlabroot\extern\lib\win32 or matlabroot\extern\lib\win64. For example, if you are using an Open Watcom C/C++ compiler, look in matlabroot\extern\lib\win32\watcom.
-
-
+Finally, after you successfully build a project and obtain the shared library (.dll on Windows or .so on Linux), change the library extension to .mexw32 (or .mexa32 on Linux) if you are building for a 32-bit PC or .mexw64 (or .mexa64) if you are building for a 64-bit PC.
