@@ -12,15 +12,15 @@ INTERFACE
 		mwPointer pm
 	end function mxGetN
 
-	mwPointer function mxGetPr(pm)
+	mwPointer function mxGetDoubles(pm)
 		IMPLICIT NONE
 		mwPointer pm
-	end function mxGetPr
+	end function mxGetDoubles
 
-	mwPointer function mxGetPi(pm)
+	mwPointer function mxGetComplexDoubles(pm)
 		IMPLICIT NONE
 		mwPointer pm
-	end function mxGetPi
+	end function mxGetComplexDoubles
 
 	mwPointer function mxCreateDoubleMatrix(m, n, ComplexFlag)
 		IMPLICIT NONE
@@ -60,31 +60,31 @@ INTERFACE
         mwSize n
 	end subroutine mxCopyReal4ToPtr
 
-	subroutine mxCopyPtrToComplex16(pr, pi, y, n)
+	subroutine mxCopyPtrToComplex16(pd, y, n)
 	    IMPLICIT NONE
-        mwPointer pr, pi
+        mwPointer pd
         complex*16 y(n)
         mwSize n
 	end subroutine mxCopyPtrToComplex16
 
-	subroutine mxCopyPtrToComplex8(pr, pi, y, n)
+	subroutine mxCopyPtrToComplex8(pd, y, n)
 	    IMPLICIT NONE
-        mwPointer pr, pi
+        mwPointer pd
         complex*8 y(n)
         mwSize n
 	end subroutine mxCopyPtrToComplex8
 
-	subroutine mxCopyComplex16ToPtr(y, pr, pi, n)
+	subroutine mxCopyComplex16ToPtr(y, pd, n)
 	    IMPLICIT NONE
         complex*16 y(n)
-        mwPointer pr, pi
+        mwPointer pd
         mwSize n
 	end subroutine mxCopyComplex16ToPtr
 
-	subroutine mxCopyComplex8ToPtr(y, pr, pi, n)
+	subroutine mxCopyComplex8ToPtr(y, pd, n)
 	    IMPLICIT NONE
         complex*8 y(n)
-        mwPointer pr, pi
+        mwPointer pd
         mwSize n
 	end subroutine mxCopyComplex8ToPtr
 

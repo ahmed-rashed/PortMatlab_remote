@@ -1,10 +1,11 @@
 SUBROUTINE MDOF_Eig_Visc(M_mat,C_mat,K_mat,N,isProportional,EigValues_vec,EigVectors_Normalized)
+    USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_SIZE_T
     USE IFPORT
     USE Matrix_LAPACK_interfaces
     USE Matrix_Operations_interfaces
 
     IMPLICIT NONE
-    INTEGER(4), INTENT(IN) :: N
+    INTEGER(C_SIZE_T), INTENT(IN) :: N
     LOGICAL, INTENT(IN) :: isProportional
     REAL(8), INTENT(IN) ::  M_mat(N,N),C_mat(N,N),K_mat(N,N)
     COMPLEX(8), INTENT(OUT) :: EigVectors_Normalized(N,2*N), EigValues_vec(2*N)
@@ -12,8 +13,7 @@ SUBROUTINE MDOF_Eig_Visc(M_mat,C_mat,K_mat,N,isProportional,EigValues_vec,EigVec
     COMPLEX(8) i
     REAL(8), ALLOCATABLE :: EigVectors_U_mat(:,:), EigValues_U_vec(:), M_r_vec(:), w_U_r_vec(:), C_r_vec(:), zeta_r_vec(:), w_d_r_vec(:), Temp_Vec(:)
     COMPLEX(8), ALLOCATABLE :: EigValues_vec_temp(:)
-    INTEGER(4) iindex(N), iiindex(2*N), NN
-    INTEGER(SIZEOF_SIZE_T) array_len, array_size
+    INTEGER(C_SIZE_T) iindex(N), iiindex(2*N), NN
 
     PARAMETER (i=(0D0,1D0))
 
@@ -41,9 +41,7 @@ SUBROUTINE MDOF_Eig_Visc(M_mat,C_mat,K_mat,N,isProportional,EigValues_vec,EigVec
     Do NN=1,N
         iindex(NN)=2*NN-1
     END DO
-    array_len=N
-    array_size=4
-    CALL QSORT(iindex,array_len,array_size,cmp_function)
+    CALL QSORT(iindex,N,SIZEOF(iindex(1)),cmp_function)
     iiindex(1:2*N-1:2)=iindex
     iiindex(2:2*N:2)=iindex+1
 
@@ -52,7 +50,8 @@ SUBROUTINE MDOF_Eig_Visc(M_mat,C_mat,K_mat,N,isProportional,EigValues_vec,EigVec
 
     CONTAINS
     INTEGER(2) FUNCTION cmp_function(ind1, ind2)
-        INTEGER(4), INTENT(IN) :: ind1, ind2
+        USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_SIZE_T
+        INTEGER(C_SIZE_T), INTENT(IN) :: ind1, ind2
 
         IF (DABS(DIMAG(EigValues_vec(ind1))) > DABS(DIMAG(EigValues_vec(ind2)))) THEN
             cmp_function=1

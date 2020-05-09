@@ -9,7 +9,11 @@ USE MX_INTERFACES
 USE MEX_INTERFACES
 
 IMPLICIT NONE
+#if defined(_WIN32) || defined(_WIN64)
+!DEC$ ATTRIBUTES DLLEXPORT :: MEXFUNCTION
+#else
 !GCC$ ATTRIBUTES DLLEXPORT :: MEXFUNCTION
+#endif
 MWPOINTER PLHS(*), PRHS(*)
 INTEGER(4) NLHS, NRHS
 mwSize NN
@@ -20,7 +24,8 @@ COMPLEX(8), ALLOCATABLE :: H_cols(:,:)
 
 INTERFACE
     FUNCTION MDOF_FRF_VISC_SLOW(M_mat,C_mat,K_mat,N,w_col,n_w_points,n_vec,m_vec,n_n_row)
-        INTEGER(4), INTENT(IN) :: N,n_w_points,n_n_row
+        USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_SIZE_T
+        INTEGER(C_SIZE_T), INTENT(IN) :: N,n_w_points,n_n_row
         REAL(8), INTENT(IN) ::  M_mat(N,N),C_mat(N,N),K_mat(N,N),w_col(n_w_points,1),n_vec(n_n_row),m_vec(n_n_row)
         COMPLEX(8) MDOF_FRF_VISC_SLOW(n_w_points,n_n_row)
 	END FUNCTION MDOF_FRF_VISC_SLOW
@@ -78,12 +83,12 @@ END IF
 
 !Inputs
 ALLOCATE(M_mat(N,N),C_mat(N,N),K_mat(N,N),w_col(n_w_points,1),n_row(1,n_n_row),m_row(1,n_n_row))
-CALL mxCopyPtrToReal8(mxGetPr(PRHS(1)), M_mat, N*N)
-CALL mxCopyPtrToReal8(mxGetPr(PRHS(2)), C_mat, N*N)
-CALL mxCopyPtrToReal8(mxGetPr(PRHS(3)), K_mat, N*N)
-CALL mxCopyPtrToReal8(mxGetPr(PRHS(4)), w_col, n_w_points)
-CALL mxCopyPtrToReal8(mxGetPr(PRHS(5)), n_row, n_n_row)
-CALL mxCopyPtrToReal8(mxGetPr(PRHS(6)), m_row, n_n_row)
+CALL mxCopyPtrToReal8(mxGetDoubles(PRHS(1)), M_mat, N*N)
+CALL mxCopyPtrToReal8(mxGetDoubles(PRHS(2)), C_mat, N*N)
+CALL mxCopyPtrToReal8(mxGetDoubles(PRHS(3)), K_mat, N*N)
+CALL mxCopyPtrToReal8(mxGetDoubles(PRHS(4)), w_col, n_w_points)
+CALL mxCopyPtrToReal8(mxGetDoubles(PRHS(5)), n_row, n_n_row)
+CALL mxCopyPtrToReal8(mxGetDoubles(PRHS(6)), m_row, n_n_row)
 
 !Do Actual Computations
 ALLOCATE(H_cols(n_w_points,n_n_row))
@@ -91,6 +96,6 @@ H_cols=MDOF_FRF_VISC_SLOW(M_mat,C_mat,K_mat,N,w_col,n_w_points,n_row,m_row,n_n_r
 
 !Outputs
 PLHS(1)=mxCreateDoubleMatrix(n_w_points,n_n_row,1)  ! Create the output matrix
-CALL mxCopyComplex16ToPtr(H_cols, mxGetPr(PLHS(1)), mxGetPi(PLHS(1)), n_w_points*n_n_row)
+CALL mxCopyComplex16ToPtr(H_cols, mxGetComplexDoubles(PLHS(1)), n_w_points*n_n_row)
 
 END SUBROUTINE MEXFUNCTION

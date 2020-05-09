@@ -1,13 +1,13 @@
 FUNCTION MDOF_FRF_VISC_SLOW(M_mat,C_mat,K_mat,N,w_col,n_w_points,n_vec,m_vec,n_n_row)
-
+USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_SIZE_T
 USE Matrix_LAPACK_interfaces
 
 IMPLICIT NONE
-INTEGER(4), INTENT(IN) :: N,n_w_points,n_n_row
+INTEGER(C_SIZE_T), INTENT(IN) :: N,n_w_points,n_n_row
 REAL(8), INTENT(IN) ::  M_mat(N,N),C_mat(N,N),K_mat(N,N),w_col(n_w_points,1),n_vec(n_n_row),m_vec(n_n_row)
 COMPLEX(8) MDOF_FRF_VISC_SLOW(n_w_points,n_n_row)
 
-INTEGER(4) nn,mm
+INTEGER(C_SIZE_T) nn,mm
 COMPLEX(8) i,H_w_mat(N,N)
 REAL(8) pi
 

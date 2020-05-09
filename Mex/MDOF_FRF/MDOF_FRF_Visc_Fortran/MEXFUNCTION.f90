@@ -4,27 +4,33 @@ SUBROUTINE MEXFUNCTION(NLHS, PLHS, NRHS, PRHS)
 ! This subroutine is the main gateway to MATLAB.  When a MEX function
 !  is executed MATLAB calls this subroutine
 
+USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_SIZE_T
 USE IFPORT
 USE MX_INTERFACES
 USE MEX_INTERFACES
 
 IMPLICIT NONE
+#if defined(_WIN32) || defined(_WIN64)
+!DEC$ ATTRIBUTES DLLEXPORT :: MEXFUNCTION
+#else
 !GCC$ ATTRIBUTES DLLEXPORT :: MEXFUNCTION
+#endif
 MWPOINTER PLHS(*), PRHS(*)
 INTEGER(4) NLHS, NRHS
 !mwSize NN
 mwPointer N, N_w, N_cols
 
-INTEGER(4), ALLOCATABLE :: n_vec(:), m_vec(:)
+INTEGER(C_SIZE_T), ALLOCATABLE :: n_vec(:), m_vec(:)
 REAL(8), ALLOCATABLE :: n_vec_temp(:), m_vec_temp(:)
 COMPLEX(8), ALLOCATABLE :: EigValues_vec(:), EigVectors_Normalized_mat(:,:), H_cols(:,:)
 REAL(8), ALLOCATABLE :: w_column(:,:)
-INTEGER(4) ii
+INTEGER(C_SIZE_T) ii
 
 INTERFACE
     FUNCTION MDOF_FRF_Visc(EigValues_vec, EigVectors_Normalized_mat, N, w_column, N_w, n_vec, m_vec, N_cols)
-        INTEGER(4), INTENT(IN) :: N, N_w, N_cols
-        INTEGER(4), INTENT(IN) :: n_vec(N_cols), m_vec(N_cols)
+        USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_SIZE_T
+        INTEGER(C_SIZE_T), INTENT(IN) :: N, N_w, N_cols
+        INTEGER(C_SIZE_T), INTENT(IN) :: n_vec(N_cols), m_vec(N_cols)
         COMPLEX(8), INTENT(IN) :: EigValues_vec(2*N), EigVectors_Normalized_mat(N,2*N)
         REAL(8), INTENT(IN) :: w_column(N_w,1)
         COMPLEX(8) MDOF_FRF_Visc(N_w,N_cols)
@@ -77,11 +83,11 @@ END IF
 
 !Inputs
 ALLOCATE(EigValues_vec(2*N), EigVectors_Normalized_mat(N,2*N),w_column(N_w,1), n_vec(N_cols), m_vec(N_cols), n_vec_temp(N_cols), m_vec_temp(N_cols))
-CALL mxCopyPtrToComplex16(mxGetPr(PRHS(1)), mxGetPi(PRHS(1)), EigValues_vec, 2*N)
-CALL mxCopyPtrToComplex16(mxGetPr(PRHS(2)), mxGetPi(PRHS(2)), EigVectors_Normalized_mat, 2*N*N)
-CALL mxCopyPtrToReal8(mxGetPr(PRHS(3)), w_column, N_w)
-CALL mxCopyPtrToReal8(mxGetPr(PRHS(4)), n_vec_temp, N_cols)
-CALL mxCopyPtrToReal8(mxGetPr(PRHS(5)), m_vec_temp, N_cols)
+CALL mxCopyPtrToComplex16(mxGetComplexDoubles(PRHS(1)), EigValues_vec, 2*N)
+CALL mxCopyPtrToComplex16(mxGetComplexDoubles(PRHS(2)), EigVectors_Normalized_mat, 2*N*N)
+CALL mxCopyPtrToReal8(mxGetDoubles(PRHS(3)), w_column, N_w)
+CALL mxCopyPtrToReal8(mxGetDoubles(PRHS(4)), n_vec_temp, N_cols)
+CALL mxCopyPtrToReal8(mxGetDoubles(PRHS(5)), m_vec_temp, N_cols)
 
 DO ii=1,N_cols
     n_vec=n_vec_temp
@@ -92,6 +98,6 @@ ALLOCATE(H_cols(N_w,N_cols))
 H_cols=MDOF_FRF_Visc(EigValues_vec, EigVectors_Normalized_mat, N, w_column, N_w, n_vec, m_vec, N_cols)
 
 PLHS(1)=mxCreateDoubleMatrix(N_w,N_cols,1)  !Create the output matrix
-CALL mxCopyComplex16ToPtr(H_cols, mxGetPr(PLHS(1)), mxGetPi(PLHS(1)), N_w*N_cols)
+CALL mxCopyComplex16ToPtr(H_cols, mxGetComplexDoubles(PLHS(1)), N_w*N_cols)
 
 END SUBROUTINE MEXFUNCTION

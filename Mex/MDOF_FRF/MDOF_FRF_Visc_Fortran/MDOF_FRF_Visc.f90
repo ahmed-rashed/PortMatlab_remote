@@ -1,13 +1,14 @@
 FUNCTION MDOF_FRF_Visc(EigValues_vec, EigVectors_Normalized_mat, N, w_column, N_w, n_vec, m_vec, N_cols)
+USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_SIZE_T
 
 IMPLICIT NONE
-INTEGER(4), INTENT(IN) :: N, N_w, N_cols
-INTEGER(4), INTENT(IN) :: n_vec(N_cols), m_vec(N_cols)
+INTEGER(C_SIZE_T), INTENT(IN) :: N, N_w, N_cols
+INTEGER(C_SIZE_T), INTENT(IN) :: n_vec(N_cols), m_vec(N_cols)
 COMPLEX(8), INTENT(IN) :: EigValues_vec(2*N), EigVectors_Normalized_mat(N,2*N)
 REAL(8), INTENT(IN) :: w_column(N_w,1)
 COMPLEX(8) MDOF_FRF_Visc(N_w,N_cols)
 
-INTEGER(4) ii,r
+INTEGER(C_SIZE_T) ii,r
 COMPLEX(8) i,H_w_n_m_cols_SDOF(N_w,N_cols), A_r(2*N,2*N), A_r_temp_row(1,N_cols)
 
 PARAMETER (i=(0D0,1D0))

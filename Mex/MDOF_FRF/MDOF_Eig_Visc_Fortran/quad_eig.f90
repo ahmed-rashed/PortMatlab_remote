@@ -1,13 +1,14 @@
 SUBROUTINE quad_eig(K_mat,C_mat,M_mat,N,Epsi_normalized_mat,EigVal_vec)
+    USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_SIZE_T
     USE Matrix_LAPACK_interfaces
     USE Matrix_Operations_interfaces
 
     IMPLICIT NONE
-    INTEGER(4), INTENT(IN) :: N
+    INTEGER(C_SIZE_T), INTENT(IN) :: N
     REAL(8), INTENT(IN) ::  M_mat(N,N),C_mat(N,N),K_mat(N,N)
     COMPLEX(8), INTENT(OUT) :: Epsi_normalized_mat(N,2*N), EigVal_vec(2*N)
 
-    INTEGER(4) NN
+    INTEGER(C_SIZE_T) NN
     REAL(8) N_mat(N,N),A_mat(2*N,2*N),B_mat(2*N,2*N)
     COMPLEX(8) Phi_mat(2*N,2*N), Phi_normalized_mat(2*N,2*N), B_r_vec(2*N)
 

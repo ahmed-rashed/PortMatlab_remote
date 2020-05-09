@@ -3,15 +3,23 @@ INCLUDE 'lapack.f90'
 !! The following 4 FUNCTIONS call Fortran 77 LAPACK SUBROUTINES
 FUNCTION sInv(A,N)
 	IMPLICIT NONE
-	!DEC$ NOFREEFORM
+#if defined(_WIN32) || defined(_WIN64)
+!DEC$ NOFREEFORM
+#else
+!GCC$ NOFREEFORM
+#endif
 		include 'mkl_lapack.fi'
-    !DEC$ FREEFORM
+#if defined(_WIN32) || defined(_WIN64)
+!DEC$ FREEFORM
+#else
+!GCC$ FREEFORM
+#endif
 
-	INTEGER(4), INTENT(IN) :: N
+	INTEGER, INTENT(IN) :: N
 	REAL(4), INTENT(IN) :: A(N,N)
 	REAL(4) sInv(N,N)
 
-	INTEGER(4) IPIV(N), LWORK, INFO
+	INTEGER IPIV(N), LWORK, INFO
 	REAL(4) L_WORK_temp(1)
 	REAL(4), ALLOCATABLE :: WORK(:)
 
@@ -42,15 +50,23 @@ END FUNCTION sInv
 
 FUNCTION dInv(A,N)
 	IMPLICIT NONE
-	!DEC$ NOFREEFORM
+#if defined(_WIN32) || defined(_WIN64)
+!DEC$ NOFREEFORM
+#else
+!GCC$ NOFREEFORM
+#endif
 		include 'mkl_lapack.fi'
-    !DEC$ FREEFORM
+#if defined(_WIN32) || defined(_WIN64)
+!DEC$ FREEFORM
+#else
+!GCC$ FREEFORM
+#endif
 
-	INTEGER(4), INTENT(IN) :: N
+	INTEGER, INTENT(IN) :: N
 	REAL(8), INTENT(IN) :: A(N,N)
 	REAL(8) dInv(N,N)
 
-	INTEGER(4) IPIV(N), LWORK, INFO
+	INTEGER IPIV(N), LWORK, INFO
 	REAL(8) L_WORK_temp(1)
 	REAL(8), ALLOCATABLE :: WORK(:)
 
@@ -81,15 +97,23 @@ END FUNCTION dInv
 
 FUNCTION cInv(A,N)
 	IMPLICIT NONE
-	!DEC$ NOFREEFORM
+#if defined(_WIN32) || defined(_WIN64)
+!DEC$ NOFREEFORM
+#else
+!GCC$ NOFREEFORM
+#endif
 		include 'mkl_lapack.fi'
-    !DEC$ FREEFORM
+#if defined(_WIN32) || defined(_WIN64)
+!DEC$ FREEFORM
+#else
+!GCC$ FREEFORM
+#endif
 
-	INTEGER(4), INTENT(IN) :: N
+	INTEGER, INTENT(IN) :: N
 	COMPLEX(4), INTENT(IN) :: A(N,N)
 	COMPLEX(4) cInv(N,N)
 
-	INTEGER(4) IPIV(N), LWORK, INFO
+	INTEGER IPIV(N), LWORK, INFO
 	COMPLEX(4) L_WORK_temp(1)
 	COMPLEX(4), ALLOCATABLE :: WORK(:)
 
@@ -120,15 +144,23 @@ END FUNCTION cInv
 
 FUNCTION zInv(A,N)
 	IMPLICIT NONE
-	!DEC$ NOFREEFORM
+#if defined(_WIN32) || defined(_WIN64)
+!DEC$ NOFREEFORM
+#else
+!GCC$ NOFREEFORM
+#endif
 		include 'mkl_lapack.fi'
-    !DEC$ FREEFORM
+#if defined(_WIN32) || defined(_WIN64)
+!DEC$ FREEFORM
+#else
+!GCC$ FREEFORM
+#endif
 
-	INTEGER(4), INTENT(IN) :: N
+	INTEGER, INTENT(IN) :: N
 	COMPLEX(8), INTENT(IN) :: A(N,N)
 	COMPLEX(8) zInv(N,N)
 
-	INTEGER(4) IPIV(N), LWORK, INFO
+	INTEGER IPIV(N), LWORK, INFO
 	COMPLEX(8) L_WORK_temp(1)
 	COMPLEX(8), ALLOCATABLE :: WORK(:)
 
@@ -159,10 +191,10 @@ FUNCTION sSymInv(A_mat, N)
 	USE lapack95, ONLY: sytrf, sytri
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N
+	INTEGER, INTENT(IN) :: N
 	REAL(4), INTENT(IN) :: A_mat(N,N)
 	REAL(4) sSymInv(N,N)
-	INTEGER(4) ipiv(N), INFO
+	INTEGER ipiv(N), INFO
 
 	sSymInv=A_mat
 	CALL sytrf(sSymInv, 'U' , ipiv, INFO)
@@ -180,10 +212,10 @@ FUNCTION dSymInv(A_mat, N)
 	USE lapack95, ONLY: sytrf, sytri
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N
+	INTEGER, INTENT(IN) :: N
 	REAL(8), INTENT(IN) :: A_mat(N,N)
 	REAL(8) dSymInv(N,N)
-	INTEGER(4) ipiv(N), INFO
+	INTEGER ipiv(N), INFO
 	
 	dSymInv=A_mat
 	CALL sytrf(dSymInv, 'U', ipiv, INFO)
@@ -201,10 +233,10 @@ FUNCTION cSymInv(A_mat, N)
 	USE lapack95, ONLY: sytrf, sytri
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N
+	INTEGER, INTENT(IN) :: N
 	COMPLEX(4), INTENT(IN) :: A_mat(N,N)
 	COMPLEX(4) cSymInv(N,N)
-	INTEGER(4) ipiv(N), INFO
+	INTEGER ipiv(N), INFO
 
 	cSymInv=A_mat
 	CALL sytrf(cSymInv, 'U', ipiv, INFO)
@@ -223,10 +255,10 @@ FUNCTION zSymInv(A_mat, N)
 	USE lapack95, ONLY: sytrf, sytri
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N
+	INTEGER, INTENT(IN) :: N
 	COMPLEX(8), INTENT(IN) :: A_mat(N,N)
 	COMPLEX(8) zSymInv(N,N)
-	INTEGER(4) ipiv(N), INFO
+	INTEGER ipiv(N), INFO
 	
 	zSymInv=A_mat
 	CALL sytrf(zSymInv, 'U', ipiv, INFO)
@@ -244,10 +276,10 @@ FUNCTION sSymPosDefInv(A_mat, N)
 	USE lapack95, ONLY: potrf, potri
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N
+	INTEGER, INTENT(IN) :: N
 	REAL(4), INTENT(IN) :: A_mat(N,N)
 	REAL(4) sSymPosDefInv(N,N)
-    INTEGER(4) INFO
+    INTEGER INFO
 
 	sSymPosDefInv=A_mat
 	CALL potrf(sSymPosDefInv, 'U', INFO)
@@ -265,10 +297,10 @@ FUNCTION dSymPosDefInv(A_mat, N)
 	USE lapack95, ONLY: potrf, potri
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N
+	INTEGER, INTENT(IN) :: N
 	REAL(8), INTENT(IN) :: A_mat(N,N)
 	REAL(8) dSymPosDefInv(N,N)
-    INTEGER(4) INFO
+    INTEGER INFO
 	dSymPosDefInv=A_mat
 	CALL potrf(dSymPosDefInv, 'U', INFO)
 	IF (INFO /= 0) THEN
@@ -285,10 +317,10 @@ FUNCTION cHermPosDefInv(A_mat, N)
 	USE lapack95, ONLY: potrf, potri
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N
+	INTEGER, INTENT(IN) :: N
 	COMPLEX(4), INTENT(IN) :: A_mat(N,N)
 	COMPLEX(4) cHermPosDefInv(N,N)
-    INTEGER(4) INFO
+    INTEGER INFO
 
 	cHermPosDefInv=A_mat
 	CALL potrf(cHermPosDefInv, 'U', INFO)
@@ -306,10 +338,10 @@ FUNCTION zHermPosDefInv(A_mat, N)
 	USE lapack95, ONLY: potrf, potri
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N
+	INTEGER, INTENT(IN) :: N
 	COMPLEX(8), INTENT(IN) :: A_mat(N,N)
 	COMPLEX(8) zHermPosDefInv(N,N)
-    INTEGER(4) INFO
+    INTEGER INFO
 
 	zHermPosDefInv=A_mat
 	CALL potrf(zHermPosDefInv, 'U', INFO)
@@ -328,11 +360,11 @@ FUNCTION sSolve(A_mat, B_mat, N, nCols)
 	USE lapack95, ONLY: gesv
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N, nCols
+	INTEGER, INTENT(IN) :: N, nCols
 	REAL(4), INTENT(IN) :: A_mat(N,N), B_mat(N,nCols)
 	REAL(4) sSolve(N,nCols)
 	REAL(4) A_temp(N,N)
-	INTEGER(4) ipiv(N), INFO
+	INTEGER ipiv(N), INFO
 
 	A_temp=A_mat
 	sSolve=B_mat
@@ -346,11 +378,11 @@ FUNCTION dSolve(A_mat, B_mat, N, nCols)
 	USE lapack95, ONLY: gesv
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N, nCols
+	INTEGER, INTENT(IN) :: N, nCols
 	REAL(8), INTENT(IN) :: A_mat(N,N), B_mat(N,nCols)
 	REAL(8) dSolve(N,nCols)
 	REAL(8) A_temp(N,N)
-	INTEGER(4) ipiv(N), INFO
+	INTEGER ipiv(N), INFO
 
 	A_temp=A_mat
 	dSolve=B_mat
@@ -364,11 +396,11 @@ FUNCTION cSolve(A_mat, B_mat, N, nCols)
 	USE lapack95, ONLY: gesv
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N, nCols
+	INTEGER, INTENT(IN) :: N, nCols
 	COMPLEX(4), INTENT(IN) :: A_mat(N,N), B_mat(N,nCols)
 	COMPLEX(4) cSolve(N,nCols)
 	COMPLEX(4) A_temp(N,N)
-	INTEGER(4) ipiv(N), INFO
+	INTEGER ipiv(N), INFO
 	
 	A_temp=A_mat
 	cSolve=B_mat
@@ -382,11 +414,11 @@ FUNCTION zSolve(A_mat, B_mat, N, nCols)
 	USE lapack95, ONLY: gesv
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N, nCols
+	INTEGER, INTENT(IN) :: N, nCols
 	COMPLEX(8), INTENT(IN) :: A_mat(N,N), B_mat(N,nCols)
 	COMPLEX(8) zSolve(N,nCols)
 	COMPLEX(8) A_temp(N,N)
-	INTEGER(4) ipiv(N), INFO
+	INTEGER ipiv(N), INFO
 	
 	A_temp=A_mat
 	zSolve=B_mat
@@ -400,11 +432,11 @@ FUNCTION sSymPosDefSolve(A_mat, B_mat, N, nCols)
 	USE lapack95, ONLY: posv
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N, nCols
+	INTEGER, INTENT(IN) :: N, nCols
 	REAL(4), INTENT(IN) :: A_mat(N,N), B_mat(N,nCols)
 	REAL(4) sSymPosDefSolve(N,nCols)
 	REAL(4) A_temp(N,N)
-	INTEGER(4) INFO
+	INTEGER INFO
 	A_temp=A_mat
 	sSymPosDefSolve=B_mat
 	CALL posv(A_temp, sSymPosDefSolve, 'U', INFO)
@@ -419,11 +451,11 @@ FUNCTION dSymPosDefSolve(A_mat, B_mat, N, nCols)
 	USE lapack95, ONLY: posv
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N, nCols
+	INTEGER, INTENT(IN) :: N, nCols
 	REAL(8), INTENT(IN) :: A_mat(N,N), B_mat(N,nCols)
 	REAL(8) dSymPosDefSolve(N,nCols)
 	REAL(8) A_temp(N,N)
-    INTEGER(4) INFO
+    INTEGER INFO
 	
 	A_temp=A_mat
 	dSymPosDefSolve=B_mat
@@ -439,11 +471,11 @@ FUNCTION cHermPosDefSolve(A_mat, B_mat, N, nCols)
 	USE lapack95, ONLY: posv
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N, nCols
+	INTEGER, INTENT(IN) :: N, nCols
 	COMPLEX(4), INTENT(IN) :: A_mat(N,N), B_mat(N,nCols)
 	COMPLEX(4) cHermPosDefSolve(N,nCols)
 	COMPLEX(4) A_temp(N,N)
-    INTEGER(4) INFO
+    INTEGER INFO
 	
 	A_temp=A_mat
 	cHermPosDefSolve=B_mat
@@ -459,11 +491,11 @@ FUNCTION zHermPosDefSolve(A_mat, B_mat, N, nCols)
 	USE lapack95, ONLY: posv
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N, nCols
+	INTEGER, INTENT(IN) :: N, nCols
 	COMPLEX(8), INTENT(IN) :: A_mat(N,N), B_mat(N,nCols)
 	COMPLEX(8) zHermPosDefSolve(N,nCols)
 	COMPLEX(8) A_temp(N,N)
-    INTEGER(4) INFO
+    INTEGER INFO
 	
 	A_temp=A_mat
 	zHermPosDefSolve=B_mat
@@ -479,12 +511,12 @@ FUNCTION sSymSolve(A_mat, B_mat, N, nCols)
 	USE lapack95, ONLY: sysv
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N, nCols
+	INTEGER, INTENT(IN) :: N, nCols
 	REAL(4), INTENT(IN) :: A_mat(N,N), B_mat(N,nCols)
 	REAL(4) sSymSolve(N,nCols)
-	INTEGER(4) ipiv(N)
+	INTEGER ipiv(N)
 	REAL(4) A_temp(N,N)
-    INTEGER(4) INFO
+    INTEGER INFO
 	
 	A_temp=A_mat
 	sSymSolve=B_mat
@@ -498,12 +530,12 @@ FUNCTION dSymSolve(A_mat, B_mat, N, nCols)
 	USE lapack95, ONLY: sysv
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N, nCols
+	INTEGER, INTENT(IN) :: N, nCols
 	REAL(8), INTENT(IN) :: A_mat(N,N), B_mat(N,nCols)
 	REAL(8) dSymSolve(N,nCols)
-	INTEGER(4) ipiv(N)
+	INTEGER ipiv(N)
 	REAL(8) A_temp(N,N)
-    INTEGER(4) INFO
+    INTEGER INFO
 	
 	A_temp=A_mat
 	dSymSolve=B_mat
@@ -517,12 +549,12 @@ FUNCTION cSymSolve(A_mat, B_mat, N, nCols)
 	USE lapack95, ONLY: sysv
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N, nCols
+	INTEGER, INTENT(IN) :: N, nCols
 	COMPLEX(4), INTENT(IN) :: A_mat(N,N), B_mat(N,nCols)
 	COMPLEX(4) cSymSolve(N,nCols)
-	INTEGER(4) ipiv(N)
+	INTEGER ipiv(N)
 	COMPLEX(4) A_temp(N,N)
-	INTEGER(4) INFO
+	INTEGER INFO
 
 	A_temp=A_mat
 	cSymSolve=B_mat
@@ -536,12 +568,12 @@ FUNCTION zSymSolve(A_mat, B_mat, N, nCols)
 	USE lapack95, ONLY: sysv
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N, nCols
+	INTEGER, INTENT(IN) :: N, nCols
 	COMPLEX(8), INTENT(IN) :: A_mat(N,N), B_mat(N,nCols)
 	COMPLEX(8) zSymSolve(N,nCols)
-	INTEGER(4) ipiv(N)
+	INTEGER ipiv(N)
 	COMPLEX(8) A_temp(N,N)
-    INTEGER(4) INFO
+    INTEGER INFO
 	
 	A_temp=A_mat
 	zSymSolve=B_mat
@@ -555,10 +587,10 @@ FUNCTION cHermSolve(A_mat, B_mat, N, nCols)
 	USE lapack95, ONLY: hesv
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N, nCols
+	INTEGER, INTENT(IN) :: N, nCols
 	COMPLEX(4), INTENT(IN) :: A_mat(N,N), B_mat(N,nCols)
 	COMPLEX(4) cHermSolve(N,nCols)
-	INTEGER(4) ipiv(N), INFO
+	INTEGER ipiv(N), INFO
 	COMPLEX(4) A_temp(N,N)
 	
 	A_temp=A_mat
@@ -573,10 +605,10 @@ FUNCTION zHermSolve(A_mat, B_mat, N, nCols)
 	USE lapack95, ONLY: hesv
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N, nCols
+	INTEGER, INTENT(IN) :: N, nCols
 	COMPLEX(8), INTENT(IN) :: A_mat(N,N), B_mat(N,nCols)
 	COMPLEX(8) zHermSolve(N,nCols)
-	INTEGER(4) ipiv(N), INFO
+	INTEGER ipiv(N), INFO
 	COMPLEX(8) A_temp(N,N)
 	
 	A_temp=A_mat
@@ -591,13 +623,13 @@ SUBROUTINE sEig(A_mat, EigVal_vec, EigVec_mat, N)
 	USE lapack95, ONLY: geev
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N
+	INTEGER, INTENT(IN) :: N
 	REAL(4), INTENT(IN) :: A_mat(N,N)
 	COMPLEX(4), INTENT(OUT) :: EigVal_vec(N), EigVec_mat(N,N)
 
 	REAL(4) A_temp(N,N), EigVec_l(N,N), EigVec_r(N,N)
 	REAL(4) w_r(N), w_i(N)
-	INTEGER(4) NN, INFO
+	INTEGER NN, INFO
 	COMPLEX(4) i
 
     PARAMETER (i=(0D0,1D0))
@@ -626,13 +658,13 @@ SUBROUTINE dEig(A_mat, EigVal_vec, EigVec_mat, N)
 	USE lapack95, ONLY: geev
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N
+	INTEGER, INTENT(IN) :: N
 	REAL(8), INTENT(IN) :: A_mat(N,N)
 	COMPLEX(8), INTENT(OUT) :: EigVal_vec(N), EigVec_mat(N,N)
 
 	REAL(8) A_temp(N,N), EigVec_l(N,N), EigVec_r(N,N)
 	REAL(8) w_r(N), w_i(N)
-	INTEGER(4) NN, INFO
+	INTEGER NN, INFO
     COMPLEX(8) i
 
     PARAMETER (i=(0D0,1D0))
@@ -661,12 +693,12 @@ SUBROUTINE cEig(A_mat, EigVal_vec, EigVec_r_mat, N)
 	USE lapack95, ONLY: geev
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N
+	INTEGER, INTENT(IN) :: N
 	COMPLEX(4), INTENT(IN) :: A_mat(N,N)
 	COMPLEX(4), INTENT(OUT) :: EigVal_vec(N), EigVec_r_mat(N,N)
 
 	COMPLEX(4) A_temp(N,N), EigVec_l_mat(N,N), i
-    INTEGER(4) INFO
+    INTEGER INFO
 
     PARAMETER (i=(0D0,1D0))
 
@@ -681,12 +713,12 @@ SUBROUTINE zEig(A_mat, EigVal_vec, EigVec_r_mat, N)
 	USE lapack95, ONLY: geev
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N
+	INTEGER, INTENT(IN) :: N
 	COMPLEX(8), INTENT(IN) :: A_mat(N,N)
 	COMPLEX(8), INTENT(OUT) :: EigVal_vec(N), EigVec_r_mat(N,N)
 
 	COMPLEX(8) A_temp(N,N), EigVec_l_mat(N,N), i
-    INTEGER(4) INFO
+    INTEGER INFO
 
     PARAMETER (i=(0D0,1D0))
 
@@ -701,10 +733,10 @@ SUBROUTINE sSymEig(A_mat, EigVal_vec, EigVec_mat, N)
 	USE lapack95, ONLY: syevd
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N
+	INTEGER, INTENT(IN) :: N
 	REAL(4), INTENT(IN) :: A_mat(N,N)
 	REAL(4), INTENT(OUT) :: EigVal_vec(N), EigVec_mat(N,N)
-    INTEGER(4) INFO
+    INTEGER INFO
 
 	EigVec_mat=A_mat
 	CALL syevd(EigVec_mat, EigVal_vec, 'V', 'U', INFO)
@@ -717,10 +749,10 @@ SUBROUTINE dSymEig(A_mat, EigVal_vec, EigVec_mat, N)
 	USE lapack95, ONLY: syevd
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N
+	INTEGER, INTENT(IN) :: N
 	REAL(8), INTENT(IN) :: A_mat(N,N)
 	REAL(8), INTENT(OUT) :: EigVal_vec(N), EigVec_mat(N,N)
-    INTEGER(4) INFO
+    INTEGER INFO
 
 	EigVec_mat=A_mat
 
@@ -734,11 +766,11 @@ SUBROUTINE cHermEig(A_mat, EigVal_vec, EigVec_mat, N)
 	USE lapack95, ONLY: heevd
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N
+	INTEGER, INTENT(IN) :: N
 	COMPLEX(4), INTENT(IN) :: A_mat(N,N)
 	REAL(4), INTENT(OUT) :: EigVal_vec(N)
 	COMPLEX(4), INTENT(OUT) :: EigVec_mat(N,N)
-    INTEGER(4) INFO
+    INTEGER INFO
 
 	EigVec_mat=A_mat
 	CALL heevd(EigVec_mat, EigVal_vec, 'V', 'U', INFO)
@@ -751,11 +783,11 @@ SUBROUTINE dHermEig(A_mat, EigVal_vec, EigVec_mat, N)
 	USE lapack95, ONLY: heevd
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N
+	INTEGER, INTENT(IN) :: N
 	COMPLEX(8), INTENT(IN) :: A_mat(N,N)
 	REAL(8), INTENT(OUT) :: EigVal_vec(N)
 	COMPLEX(8), INTENT(OUT) :: EigVec_mat(N,N)
-    INTEGER(4) INFO
+    INTEGER INFO
 
 	EigVec_mat=A_mat
 	CALL heevd(EigVec_mat, EigVal_vec, 'V', 'U', INFO)
@@ -768,13 +800,13 @@ SUBROUTINE sGenEig(A_mat, B_mat, EigVal_vec, EigVec_mat, N)
 	USE lapack95, ONLY: ggev
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N
+	INTEGER, INTENT(IN) :: N
 	REAL(4), INTENT(IN) :: A_mat(N,N), B_mat(N,N)
 	COMPLEX(4), INTENT(OUT) :: EigVal_vec(N), EigVec_mat(N,N)
 
 	REAL(4) A_temp(N,N), B_temp(N,N), EigVec_l(N,N), EigVec_r(N,N)
 	REAL(4) alphar(N), alphai(N), beta(N)
-	INTEGER(4) NN, INFO
+	INTEGER NN, INFO
 	COMPLEX(4) i
 
     PARAMETER (i=(0D0,1D0))
@@ -804,13 +836,13 @@ SUBROUTINE dGenEig(A_mat, B_mat, EigVal_vec, EigVec_mat, N)
 	USE lapack95, ONLY: ggev
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N
+	INTEGER, INTENT(IN) :: N
 	REAL(8), INTENT(IN) :: A_mat(N,N), B_mat(N,N)
 	COMPLEX(8), INTENT(OUT) :: EigVal_vec(N), EigVec_mat(N,N)
 
 	REAL(8) A_temp(N,N), B_temp(N,N), EigVec_l(N,N), EigVec_r(N,N)
 	REAL(8) alphar(N), alphai(N), beta(N)
-	INTEGER(4) NN, INFO
+	INTEGER NN, INFO
 	COMPLEX(8) i
 
     PARAMETER (i=(0D0,1D0))
@@ -840,12 +872,12 @@ SUBROUTINE cGenEig(A_mat, B_mat, EigVal_vec, EigVec_r_mat, N)
 	USE lapack95, ONLY: ggev
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N
+	INTEGER, INTENT(IN) :: N
 	COMPLEX(4), INTENT(IN) :: A_mat(N,N), B_mat(N,N)
 	COMPLEX(4), INTENT(OUT) :: EigVal_vec(N), EigVec_r_mat(N,N)
 
 	COMPLEX(4) A_temp(N,N), B_temp(N,N), EigVec_l_mat(N,N), alpha(N), beta(N), i
-    INTEGER(4) INFO
+    INTEGER INFO
 
     PARAMETER (i=(0D0,1D0))
 
@@ -863,12 +895,12 @@ SUBROUTINE zGenEig(A_mat, B_mat, EigVal_vec, EigVec_r_mat, N)
 	USE lapack95, ONLY: ggev
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N
+	INTEGER, INTENT(IN) :: N
 	COMPLEX(8), INTENT(IN) :: A_mat(N,N), B_mat(N,N)
 	COMPLEX(8), INTENT(OUT) :: EigVal_vec(N), EigVec_r_mat(N,N)
 
 	COMPLEX(8) A_temp(N,N), B_temp(N,N), EigVec_l_mat(N,N), alpha(N), beta(N), i
-    INTEGER(4) INFO
+    INTEGER INFO
 
     PARAMETER (i=(0D0,1D0))
 
@@ -886,12 +918,12 @@ SUBROUTINE sGenSymDefEig(A_mat, B_mat, EigVal_vec, EigVec_mat, N)
 	USE lapack95, ONLY: sygvd
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N
+	INTEGER, INTENT(IN) :: N
 	REAL(4), INTENT(IN) :: A_mat(N,N), B_mat(N,N)
 	REAL(4), INTENT(OUT) :: EigVal_vec(N), EigVec_mat(N,N)
 
 	REAL(4) B_temp(N,N)
-    INTEGER(4) INFO
+    INTEGER INFO
 
 	EigVec_mat=A_mat
     B_temp=B_mat
@@ -907,12 +939,12 @@ SUBROUTINE dGenSymDefEig(A_mat, B_mat, EigVal_vec, EigVec_mat, N)
 	USE lapack95, ONLY: sygvd
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N
+	INTEGER, INTENT(IN) :: N
 	REAL(8), INTENT(IN) :: A_mat(N,N), B_mat(N,N)
 	REAL(8), INTENT(OUT) :: EigVal_vec(N), EigVec_mat(N,N)
 
 	REAL(8) B_temp(N,N)
-    INTEGER(4) INFO
+    INTEGER INFO
 
 	EigVec_mat=A_mat
     B_temp=B_mat
@@ -928,13 +960,13 @@ SUBROUTINE cGenHermDefEig(A_mat, B_mat, EigVal_vec, EigVec_mat, N)
 	USE lapack95, ONLY: hegvd
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N
+	INTEGER, INTENT(IN) :: N
 	COMPLEX(4), INTENT(IN) :: A_mat(N,N), B_mat(N,N)
 	REAL(4), INTENT(OUT) :: EigVal_vec(N)
 	COMPLEX(4), INTENT(OUT) :: EigVec_mat(N,N)
 
 	COMPLEX(4) B_temp(N,N)
-    INTEGER(4) INFO
+    INTEGER INFO
 
 	EigVec_mat=A_mat
     B_temp=B_mat
@@ -950,13 +982,13 @@ SUBROUTINE zGenHermDefEig(A_mat, B_mat, EigVal_vec, EigVec_mat, N)
 	USE lapack95, ONLY: hegvd
 	IMPLICIT NONE
 
-	INTEGER(4), INTENT(IN) :: N
+	INTEGER, INTENT(IN) :: N
 	COMPLEX(8), INTENT(IN) :: A_mat(N,N), B_mat(N,N)
 	REAL(8), INTENT(OUT) :: EigVal_vec(N)
 	COMPLEX(8), INTENT(OUT) :: EigVec_mat(N,N)
 
 	COMPLEX(8) B_temp(N,N)
-    INTEGER(4) INFO
+    INTEGER INFO
 
 	EigVec_mat=A_mat
     B_temp=B_mat
