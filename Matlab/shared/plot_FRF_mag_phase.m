@@ -173,16 +173,16 @@ if isgraphics(ax_phase_h)
     yTickLabels=cell(1,N_ticks);
     for ii=1:N_ticks
         if yTicks(ii)==0
-            yTickLabels{ii}='0';
+            yTickLabels{ii}='$0$';
         elseif yTicks(ii)==pi
-            yTickLabels{ii}='\pi';
+            yTickLabels{ii}='$\pi$';
         elseif yTicks(ii)==-pi
-            yTickLabels{ii}='-\pi';
+            yTickLabels{ii}='$-\pi$';
         else
-            yTickLabels{ii}=[num2str(yTicks(ii)/pi),'\pi'];
+            yTickLabels{ii}=['$',num2str(yTicks(ii)/pi),'\pi$'];
         end
     end
-    ax_phase_h.YAxis.FontName='Times';
+    ax_phase_h.YAxis.TickLabelInterpreter='latex';
     set(ax_phase_h,'YTickLabel',yTickLabels);
     if yLim_min~=yLim_max
         ylim(ax_phase_h,[yLim_min,yLim_max])

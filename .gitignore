@@ -282,3 +282,5 @@ target/
 *.pdf
 
 *.u2d
+
+*.o

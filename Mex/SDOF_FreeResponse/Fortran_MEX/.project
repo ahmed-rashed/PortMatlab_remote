@@ -24,4 +24,16 @@
 		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>mex_interfaces.f90</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/mex_interfaces.f90</locationURI>
+		</link>
+		<link>
+			<name>mx_interfaces.f90</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/mx_interfaces.f90</locationURI>
+		</link>
+	</linkedResources>
 </projectDescription>
