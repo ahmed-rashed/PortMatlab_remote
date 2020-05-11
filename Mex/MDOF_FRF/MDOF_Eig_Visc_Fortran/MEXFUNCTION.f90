@@ -47,7 +47,7 @@ IMPLICIT NONE
             LOGICAL, INTENT(IN) :: isProportional
             REAL(8), INTENT(IN) ::  M_mat(N,N),C_mat(N,N),K_mat(N,N)
             COMPLEX(8), INTENT(OUT) :: EigVectors_Normalized(N,2*N), EigValues_vec(2*N)
-	    END SUBROUTINE MDOF_Eig_Visc
+        END SUBROUTINE MDOF_Eig_Visc
 
         logical function mxGetLogicalScalar(mx)
             mwPointer, intent(in) :: mx
@@ -58,31 +58,31 @@ IMPLICIT NONE
 ! For Windows only!
 ! This resets the floating point exception to allow divide by zero,
 ! overflow and invalid numbers. 
-	INTEGER(2) CONTROL
-	CALL GETCONTROLFPQQ(CONTROL)
-	CONTROL = CONTROL .OR. FPCW$ZERODIVIDE
+    INTEGER(2) CONTROL
+    CALL GETCONTROLFPQQ(CONTROL)
+    CONTROL = CONTROL .OR. FPCW$ZERODIVIDE
       CONTROL = CONTROL .OR. FPCW$INVALID
       CONTROL = CONTROL .OR. FPCW$OVERFLOW
-	CALL SETCONTROLFPQQ(CONTROL)
+    CALL SETCONTROLFPQQ(CONTROL)
 #endif
 
     ! Check for proper number of arguments
     IF ((NRHS/=3) .AND. (NRHS/=4)) THEN
-	    CALL mexErrMsgTxt('Dear student, This function takes 3 or 4 inputs.')
+        CALL mexErrMsgTxt('Dear student, This function takes 3 or 4 inputs.')
     END IF
 
     IF ((NLHS/=1) .AND. (NLHS/=2)) THEN
-	    CALL mexErrMsgTxt('Dear student, this function returns one or two outputs only.')
+        CALL mexErrMsgTxt('Dear student, this function returns one or two outputs only.')
     END IF
 
     N=mxGetM(PRHS(1))
     IF (N /= mxGetN(PRHS(1))) THEN
-	    CALL mexErrMsgTxt('Dear student, The M_mat matrix must be square.')
+        CALL mexErrMsgTxt('Dear student, The M_mat matrix must be square.')
     END IF
 
     DO NN=2,3
         IF ((mxGetM(PRHS(NN)) /= N) .OR. (mxGetN(PRHS(NN)) /= N)) THEN
-	        CALL mexErrMsgTxt('Dear student, the C_mat and K_mat matrices must be square with size identical to M_mat.')    !Improve this
+            CALL mexErrMsgTxt('Dear student, the C_mat and K_mat matrices must be square with size identical to M_mat.')    !Improve this
         END IF
     END DO
 

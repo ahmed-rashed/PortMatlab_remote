@@ -41,44 +41,44 @@ END INTERFACE
 ! For Windows only!
 ! This resets the floating point exception to allow divide by zero,
 ! overflow and invalid numbers. 
-	INTEGER(2) CONTROL
-	CALL GETCONTROLFPQQ(CONTROL)
-	CONTROL = CONTROL .OR. FPCW$ZERODIVIDE
+    INTEGER(2) CONTROL
+    CALL GETCONTROLFPQQ(CONTROL)
+    CONTROL = CONTROL .OR. FPCW$ZERODIVIDE
       CONTROL = CONTROL .OR. FPCW$INVALID
       CONTROL = CONTROL .OR. FPCW$OVERFLOW
-	CALL SETCONTROLFPQQ(CONTROL)
+    CALL SETCONTROLFPQQ(CONTROL)
 #endif
 
 ! Check for proper number of arguments
 IF ((NRHS/=5)) THEN
-	CALL mexErrMsgTxt('Dear student, This function needs 5 inputs.')
+    CALL mexErrMsgTxt('Dear student, This function needs 5 inputs.')
 END IF
 
 IF ((NLHS>1)) THEN
-	CALL mexErrMsgTxt('Dear student, this function returns only one output.')
+    CALL mexErrMsgTxt('Dear student, this function returns only one output.')
 END IF
 
 N=mxGetM(PRHS(2))
 IF (2*N /= mxGetN(PRHS(2))) THEN
-	CALL mexErrMsgTxt('Dear student, The EigVectors_Normalized matrix must have columns twice as many as be rows.')
+    CALL mexErrMsgTxt('Dear student, The EigVectors_Normalized matrix must have columns twice as many as be rows.')
 END IF
 
 IF (mxGetNumberOfElements(prhs(1)) /= 2*N) THEN
-	CALL mexErrMsgTxt('Dear student, the EigValues_vec vector must have length identical to the number of columns of EigVectors_Normalized matrix.')
+    CALL mexErrMsgTxt('Dear student, the EigValues_vec vector must have length identical to the number of columns of EigVectors_Normalized matrix.')
 END IF
 
 IF (mxGetN(prhs(3)) /= 1) THEN
-	CALL mexErrMsgTxt('Dear student, w_column must be a column vector.')
+    CALL mexErrMsgTxt('Dear student, w_column must be a column vector.')
 END IF
 N_w=mxGetM(prhs(3))
 
 IF (mxGetM(prhs(4)) /= 1) THEN
-	CALL mexErrMsgTxt('Dear student, n_row must be a row vector.')
+    CALL mexErrMsgTxt('Dear student, n_row must be a row vector.')
 END IF
 N_cols=mxGetN(prhs(4))
 
 IF ((mxGetM(prhs(5)) /= 1) .OR. (mxGetN(prhs(5)) /= N_cols)) THEN
-	CALL mexErrMsgTxt('Dear student, m_row must have size identical to n_row.')
+    CALL mexErrMsgTxt('Dear student, m_row must have size identical to n_row.')
 END IF
 
 !Inputs

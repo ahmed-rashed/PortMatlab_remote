@@ -13,12 +13,12 @@ REAL(8) pi
 
 PARAMETER (pi=DATAN(1D0)*4D0, i=(0D0,1D0))
 
-	DO nn=1,n_w_points
-		H_w_mat=zInv(-w_col(nn,1)*w_col(nn,1)*M_mat+i*w_col(nn,1)*C_mat+K_mat,N)
+    DO nn=1,n_w_points
+        H_w_mat=zInv(-w_col(nn,1)*w_col(nn,1)*M_mat+i*w_col(nn,1)*C_mat+K_mat,N)
 
         DO mm=1,n_n_row
-		    MDOF_FRF_VISC_SLOW(nn,mm)=H_w_mat(n_vec(mm),m_vec(mm))
+            MDOF_FRF_VISC_SLOW(nn,mm)=H_w_mat(n_vec(mm),m_vec(mm))
         END DO
-	END DO
+    END DO
 
 END FUNCTION MDOF_FRF_VISC_SLOW

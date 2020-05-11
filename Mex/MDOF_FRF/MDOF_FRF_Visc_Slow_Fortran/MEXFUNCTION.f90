@@ -28,57 +28,57 @@ INTERFACE
         INTEGER(C_SIZE_T), INTENT(IN) :: N,n_w_points,n_n_row
         REAL(8), INTENT(IN) ::  M_mat(N,N),C_mat(N,N),K_mat(N,N),w_col(n_w_points,1),n_vec(n_n_row),m_vec(n_n_row)
         COMPLEX(8) MDOF_FRF_VISC_SLOW(n_w_points,n_n_row)
-	END FUNCTION MDOF_FRF_VISC_SLOW
+    END FUNCTION MDOF_FRF_VISC_SLOW
 END INTERFACE
 
 #if defined(_WIN32) || defined(_WIN64)
 ! For Windows only!
 ! This resets the floating point exception to allow divide by zero,
 ! overflow and invalid numbers. 
-	INTEGER(2) CONTROL
-	CALL GETCONTROLFPQQ(CONTROL)
-	CONTROL = CONTROL .OR. FPCW$ZERODIVIDE
+    INTEGER(2) CONTROL
+    CALL GETCONTROLFPQQ(CONTROL)
+    CONTROL = CONTROL .OR. FPCW$ZERODIVIDE
       CONTROL = CONTROL .OR. FPCW$INVALID
       CONTROL = CONTROL .OR. FPCW$OVERFLOW
-	CALL SETCONTROLFPQQ(CONTROL)
+    CALL SETCONTROLFPQQ(CONTROL)
 #endif
 
 ! Check for proper number of arguments
 IF ((NRHS/=6)) THEN
-	CALL mexErrMsgTxt('Dear student, This function needs 6 inputs.')
+    CALL mexErrMsgTxt('Dear student, This function needs 6 inputs.')
 END IF
 
 IF ((NLHS>1)) THEN
-	CALL mexErrMsgTxt('Dear student, this function returns only one output.')
+    CALL mexErrMsgTxt('Dear student, this function returns only one output.')
 END IF
 
 N=mxGetM(PRHS(1))
 IF (N /= mxGetN(PRHS(1))) THEN
-	CALL mexErrMsgTxt('Dear student, The M_mat matrix must be square.')
+    CALL mexErrMsgTxt('Dear student, The M_mat matrix must be square.')
 END IF
 
 DO NN=2,3
     IF ((mxGetM(PRHS(NN)) /= N) .OR. (mxGetN(PRHS(NN)) /= N)) THEN
-	    CALL mexErrMsgTxt('Dear student, the C_mat and K_mat matrices must be square with size identical to M_mat.')    !Improve this
+        CALL mexErrMsgTxt('Dear student, the C_mat and K_mat matrices must be square with size identical to M_mat.')    !Improve this
     END IF
 END DO
 
 IF (mxGetN(PRHS(4)) /= 1) THEN
-	CALL mexErrMsgTxt('Dear student, w_col must be a column vector.')
+    CALL mexErrMsgTxt('Dear student, w_col must be a column vector.')
 END IF
 n_w_points=mxGetM(PRHS(4));
 
 IF (mxGetM(PRHS(5)) /= 1) THEN
-	CALL mexErrMsgTxt('Dear student, n_row must be a row vector.')
+    CALL mexErrMsgTxt('Dear student, n_row must be a row vector.')
 END IF
 n_n_row=mxGetN(PRHS(5))
 
 IF (mxGetM(PRHS(6)) /= 1) THEN
-	CALL mexErrMsgTxt('Dear student, m_row must be a row vector.')
+    CALL mexErrMsgTxt('Dear student, m_row must be a row vector.')
 END IF
 
 IF (mxGetN(PRHS(6)) /= n_n_row) THEN
-	CALL mexErrMsgTxt('Dear student, m_row & m_row must have the same size.')
+    CALL mexErrMsgTxt('Dear student, m_row & m_row must have the same size.')
 END IF
 
 !Inputs
