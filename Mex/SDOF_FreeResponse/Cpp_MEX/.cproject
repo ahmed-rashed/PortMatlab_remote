@@ -139,7 +139,7 @@
                                 								
                                 <option id="gnu.cpp.link.option.pthread.995724166" name="Support for pthread (-pthread)" superClass="gnu.cpp.link.option.pthread" useByScannerDiscovery="false" value="true" valueType="boolean"/>
                                 								
-                                <option id="gnu.cpp.link.option.flags.824471854" name="Linker flags" superClass="gnu.cpp.link.option.flags" useByScannerDiscovery="false" value="-g -Wl,--no-undefined -Wl,--version-script,&quot;${MATLABROOT}/extern/lib/glnxa64/c_exportsmexfileversion.map&quot; -Wl,--as-needed -Wl,-rpath-link,${MATLABROOT}/bin/glnxa64 -Wl,-rpath-link,${MATLABROOT}/extern/bin/glnxa64" valueType="string"/>
+                                <option id="gnu.cpp.link.option.flags.824471854" name="Linker flags" superClass="gnu.cpp.link.option.flags" useByScannerDiscovery="false" value="-g -Wl,--no-undefined -Wl,--version-script,&quot;../mexFunction.map&quot; -Wl,--as-needed -Wl,-rpath-link,${MATLABROOT}/bin/glnxa64 -Wl,-rpath-link,${MATLABROOT}/extern/bin/glnxa64" valueType="string"/>
                                 								
                                 <inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1938353748" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
                                     									
@@ -309,7 +309,7 @@
                                 								
                                 <option id="gnu.cpp.link.option.pthread.1640144343" name="Support for pthread (-pthread)" superClass="gnu.cpp.link.option.pthread" useByScannerDiscovery="false" value="true" valueType="boolean"/>
                                 								
-                                <option id="gnu.cpp.link.option.flags.2109429029" name="Linker flags" superClass="gnu.cpp.link.option.flags" useByScannerDiscovery="false" value="-O -Wl,--no-undefined -Wl,--version-script,&quot;${MATLABROOT}/extern/lib/glnxa64/c_exportsmexfileversion.map&quot; -Wl,--as-needed -Wl,-rpath-link,${MATLABROOT}/bin/glnxa64 -Wl,-rpath-link,${MATLABROOT}/extern/bin/glnxa64" valueType="string"/>
+                                <option id="gnu.cpp.link.option.flags.2109429029" name="Linker flags" superClass="gnu.cpp.link.option.flags" useByScannerDiscovery="false" value="-O -Wl,--no-undefined -Wl,--version-script,&quot;../mexFunction.map&quot; -Wl,--as-needed -Wl,-rpath-link,${MATLABROOT}/bin/glnxa64 -Wl,-rpath-link,${MATLABROOT}/extern/bin/glnxa64" valueType="string"/>
                                 								
                                 <inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.304687730" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
                                     									

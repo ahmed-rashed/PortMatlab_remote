@@ -1,0 +1,14 @@
+# This is the symbol export map file for glibc Linux.  The file specifies
+# that only the mexFunction symbol should have global scope,
+# and that all others should be local.
+# Copyright 2004-2017 The MathWorks, Inc.
+MEX {
+        global:
+                mexFunction;
+                mexCreateMexFunction;
+                mexDestroyMexFunction;
+                mexFunctionAdapter;
+
+        local:
+                *;
+};

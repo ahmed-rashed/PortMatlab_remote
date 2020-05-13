@@ -127,7 +127,7 @@
                                 								
                                 <option id="gnu.c.link.option.pthread.1628367919" name="Support for pthread (-pthread)" superClass="gnu.c.link.option.pthread" useByScannerDiscovery="false" value="true" valueType="boolean"/>
                                 								
-                                <option id="gnu.c.link.option.ldflags.1350111164" name="Linker flags" superClass="gnu.c.link.option.ldflags" useByScannerDiscovery="false" value="-g -Wl,--no-undefined -Wl,-rpath-link,${MATLABROOT}/bin/glnxa64 -Wl,--version-script,&quot;${MATLABROOT}/extern/lib/glnxa64/c_exportsmexfileversion.map&quot;" valueType="string"/>
+                                <option id="gnu.c.link.option.ldflags.1350111164" name="Linker flags" superClass="gnu.c.link.option.ldflags" useByScannerDiscovery="false" value="-g -Wl,--no-undefined -Wl,-rpath-link,${MATLABROOT}/bin/glnxa64 -Wl,--version-script,&quot;../mexFunction.map&quot;" valueType="string"/>
                                 								
                                 <inputType id="cdt.managedbuild.tool.gnu.c.linker.input.1223141317" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
                                     									
@@ -291,7 +291,7 @@
                                 								
                                 <option id="gnu.c.link.option.pthread.1067341403" name="Support for pthread (-pthread)" superClass="gnu.c.link.option.pthread" useByScannerDiscovery="false" value="true" valueType="boolean"/>
                                 								
-                                <option id="gnu.c.link.option.ldflags.1043954214" name="Linker flags" superClass="gnu.c.link.option.ldflags" useByScannerDiscovery="false" value="-g -Wl,--no-undefined -Wl,-rpath-link,${MATLABROOT}/bin/glnxa64 -Wl,--version-script,&quot;${MATLABROOT}/extern/lib/glnxa64/c_exportsmexfileversion.map&quot;" valueType="string"/>
+                                <option id="gnu.c.link.option.ldflags.1043954214" name="Linker flags" superClass="gnu.c.link.option.ldflags" useByScannerDiscovery="false" value="-g -Wl,--no-undefined -Wl,-rpath-link,${MATLABROOT}/bin/glnxa64 -Wl,--version-script,&quot;../mexFunction.map&quot;" valueType="string"/>
                                 								
                                 <inputType id="cdt.managedbuild.tool.gnu.c.linker.input.1734088646" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
                                     									

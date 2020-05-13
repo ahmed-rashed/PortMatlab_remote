@@ -1,0 +1,11 @@
+# This is the symbol export map file for glibc Linux MEX-files with
+# Fortran gateways.  The file specifies that only the mexfunction_
+# symbol should have global scope, and that all others should be
+# local.
+# Copyright 2004-2009 The MathWorks, Inc.
+FMEX {
+	global:
+		mexfunction_;
+	local:
+		*;
+};

@@ -93,7 +93,7 @@
                                 								
                                 <option id="gnu.fortran.link.option.shared.726370715" name="Shared (-shared)" superClass="gnu.fortran.link.option.shared" useByScannerDiscovery="false" value="true" valueType="boolean"/>
                                 								
-                                <option id="gnu.fortran.link.option.ldflags.642601445" name="Linker flags" superClass="gnu.fortran.link.option.ldflags" useByScannerDiscovery="false" value="-g -pthread -Wl,--version-script,${MATLABROOT}/extern/lib/glnxa64/fortran_exportsmexfileversion.map -Wl,-rpath-link,${MATLABROOT}/bin/glnxa64" valueType="string"/>
+                                <option id="gnu.fortran.link.option.ldflags.642601445" name="Linker flags" superClass="gnu.fortran.link.option.ldflags" useByScannerDiscovery="false" value="-g -pthread -Wl,--version-script,&quot;../fexport.map&quot; -Wl,-rpath-link,${MATLABROOT}/bin/glnxa64" valueType="string"/>
                                 								
                                 <inputType id="photran.managedbuild.tool.gnu.fortran.linker.input.832492904" superClass="photran.managedbuild.tool.gnu.fortran.linker.input">
                                     									
@@ -215,7 +215,7 @@
                                 								
                                 <option id="gnu.fortran.link.option.shared.1395992988" name="Shared (-shared)" superClass="gnu.fortran.link.option.shared" useByScannerDiscovery="false" value="true" valueType="boolean"/>
                                 								
-                                <option id="gnu.fortran.link.option.ldflags.1916528120" name="Linker flags" superClass="gnu.fortran.link.option.ldflags" useByScannerDiscovery="false" value="-O -pthread -Wl,--version-script,${MATLABROOT}/extern/lib/glnxa64/fortran_exportsmexfileversion.map -Wl,-rpath-link,${MATLABROOT}/bin/glnxa64" valueType="string"/>
+                                <option id="gnu.fortran.link.option.ldflags.1916528120" name="Linker flags" superClass="gnu.fortran.link.option.ldflags" useByScannerDiscovery="false" value="-O -pthread -Wl,--version-script,&quot;../fexport.map&quot; -Wl,-rpath-link,${MATLABROOT}/bin/glnxa64" valueType="string"/>
                                 								
                                 <inputType id="photran.managedbuild.tool.gnu.fortran.linker.input.1859047513" superClass="photran.managedbuild.tool.gnu.fortran.linker.input">
                                     									
