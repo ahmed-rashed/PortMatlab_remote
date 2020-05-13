@@ -1,5 +1,5 @@
-#ifndef MatrixOperations_h
-#define MatrixOperations_h
+#ifndef MatrixOperations_hpp
+#define MatrixOperations_hpp
 
 inline size_t RowMajorSub2Ind(const size_t& n_cols, const size_t& row, const size_t& col)
 {

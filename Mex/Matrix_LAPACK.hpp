@@ -1,5 +1,5 @@
-#ifndef Matrix_LAPACK_h
-#define Matrix_LAPACK_h
+#ifndef Matrix_LAPACK_hpp
+#define Matrix_LAPACK_hpp
 
 #include <valarray>
 #include <complex>

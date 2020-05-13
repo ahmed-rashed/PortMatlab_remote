@@ -1,5 +1,5 @@
-#ifndef ArmadilloMatrixOperations_h
-#define ArmadilloMatrixOperations_h
+#ifndef ArmadilloMatrixOperations_hpp
+#define ArmadilloMatrixOperations_hpp
 
 #include <armadillo>
 

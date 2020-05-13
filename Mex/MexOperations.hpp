@@ -1,5 +1,5 @@
-#ifndef MexOperations_h
-#define MexOperations_h
+#ifndef MexOperations_hpp
+#define MexOperations_hpp
 
 #include "a_matrices.hpp"
 #include "MatlabDataArray/TypedArrayRef.hpp"

@@ -1,5 +1,5 @@
-#ifndef valarray_ComplexRealOperatore_h
-#define valarray_ComplexRealOperatore_h
+#ifndef valarray_ComplexRealOperatore_hpp
+#define valarray_ComplexRealOperatore_hpp
 
 #include <complex>
 #include <valarray>

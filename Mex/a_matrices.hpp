@@ -1,5 +1,5 @@
-#ifndef a_matrices_h
-#define a_matrices_h
+#ifndef a_matrices_hpp
+#define a_matrices_hpp
 
 #include "a_matrices_internals.hpp"
 #include <valarray>
@@ -114,6 +114,36 @@ public:
 #else
 		return &(va[i*cols]);
 #endif
+	}
+
+	const T& operator()(const size_t& i) const
+	{
+		return va[i];
+	}
+
+	T& operator()(const size_t& i)
+	{
+		return va[i];
+	}
+
+	T* begin()
+	{
+		return std::begin(va);
+	}
+
+	const T* begin() const
+	{
+		return std::begin(va);
+	}
+
+	T* end()
+	{
+		return std::end(va);
+	}
+
+	const T* end() const
+	{
+		return std::end(va);
 	}
 
 	//Vector of indices

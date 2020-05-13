@@ -1,5 +1,5 @@
-#ifndef a_matrices_internals_h
-#define a_matrices_internals_h
+#ifndef a_matrices_internals_hpp
+#define a_matrices_internals_hpp
 
 #include <iostream>
 

@@ -1,5 +1,5 @@
-#ifndef Matrix_BLAS_h
-#define Matrix_BLAS_h
+#ifndef Matrix_BLAS_hpp
+#define Matrix_BLAS_hpp
 
 #include <valarray>
 #include <complex>
