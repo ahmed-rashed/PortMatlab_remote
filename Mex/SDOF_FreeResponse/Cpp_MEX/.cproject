@@ -492,6 +492,10 @@
                                     <listOptionValue builtIn="false" value="libmat"/>
                                     									
                                     <listOptionValue builtIn="false" value="m"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="libMatlabDataArray"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="libMatlabEngine"/>
                                     								
                                 </option>
                                 								
@@ -680,6 +684,10 @@
                                     <listOptionValue builtIn="false" value="libmat"/>
                                     									
                                     <listOptionValue builtIn="false" value="m"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="libMatlabDataArray"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="libMatlabEngine"/>
                                     								
                                 </option>
                                 								

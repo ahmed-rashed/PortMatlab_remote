@@ -1,9 +1,11 @@
 #include <complex>
 
 #include "ArmadilloMatrixOperations.hpp"
+#include "ArmadilloMexOperations.hpp"
 
 #include "mex.hpp"
-#include "mexAdapter.hpp"
+#include "mexAdapter.hpp"	//Include mexAdapter.hpp only once with the MexFunction class definition in MEX applications that span multiple files.
+							//[www.mathworks.com/help/matlab/matlab_external/structure-of-c-mex-function.html]
 
 using namespace matlab::data;
 using matlab::mex::ArgumentList;
@@ -24,24 +26,11 @@ public:
 		size_t N, N_cols, N_w, N_col;
 		checkArguments(outputs, inputs, N, N_cols, N_w, N_col);
 
-		Col<complex<double> > EigValues_col(2 * N);
-		for (size_t n = 0; n < 2 * N; n++)
-			EigValues_col(n) = inputs[0][n];
-
-		Mat<complex<double> > EigVectors_Normalized(N, N_cols);
-		for (size_t n = 0; n < N*N_cols; n++)
-			EigVectors_Normalized(n) = inputs[1][n];
-
-		Mat<double> w_column(N_w,1);
-		for (size_t n = 0; n < N_w; n++)
-			w_column(n) = inputs[2][n];
-
-		Row<double> n_C(N_col),m_C(N_col);
-		for (size_t n = 0; n < N_col; n++)
-		{
-			n_C(n) = inputs[3][n];
-			m_C(n) = inputs[4][n];
-		}
+		Col<complex<double> > EigValues_col(MatlabCol2Armadillo<complex<double> >(inputs[0]));
+		Mat<complex<double> > EigVectors_Normalized(MatlabMat2Armadillo<complex<double> >(inputs[1]));
+		Mat<double> w_column(MatlabMat2Armadillo<double>(inputs[2]));
+		Row<double> n_C(MatlabRow2Armadillo<double>(inputs[3]));
+		Row<double> m_C(MatlabRow2Armadillo<double>(inputs[4]));
 
 		n_C=n_C-1;	//Convert from Matlab 1 based indexing to C 0 based indexing
 		m_C=m_C-1;	//Convert from Matlab 1 based indexing to C 0 based indexing

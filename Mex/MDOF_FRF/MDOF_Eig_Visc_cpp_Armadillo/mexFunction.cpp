@@ -1,9 +1,11 @@
 #include <complex>
 
 #include "ArmadilloMatrixOperations.hpp"
+#include "ArmadilloMexOperations.hpp"
 
 #include "mex.hpp"
-#include "mexAdapter.hpp"
+#include "mexAdapter.hpp"	//Include mexAdapter.hpp only once with the MexFunction class definition in MEX applications that span multiple files.
+							//[www.mathworks.com/help/matlab/matlab_external/structure-of-c-mex-function.html]
 
 using namespace matlab::data;
 using matlab::mex::ArgumentList;
@@ -24,13 +26,9 @@ public:
 		size_t N;
 		checkArguments(outputs, inputs, N);
 
-		Mat<double> M_mat(N,N), C_mat(N, N), K_mat(N, N);
-		for (size_t n = 0; n < N*N; n++)
-		{
-			M_mat(n) = inputs[0][n];
-			C_mat(n) = inputs[1][n];
-			K_mat(n) = inputs[2][n];
-		}
+		Mat<double> M_mat(MatlabMat2Armadillo<double>(inputs[0]));
+		Mat<double> C_mat(MatlabMat2Armadillo<double>(inputs[1]));
+		Mat<double> K_mat(MatlabMat2Armadillo<double>(inputs[2]));
 
 		bool isPropotional=false;
 		if (inputs.size() == 4)

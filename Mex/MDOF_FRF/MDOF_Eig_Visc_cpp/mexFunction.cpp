@@ -4,7 +4,8 @@
 #include "MexOperations.hpp"
 #include "a_matrices.hpp"
 #include "mex.hpp"
-#include "mexAdapter.hpp"
+#include "mexAdapter.hpp"	//Include mexAdapter.hpp only once with the MexFunction class definition in MEX applications that span multiple files.
+							//[www.mathworks.com/help/matlab/matlab_external/structure-of-c-mex-function.html]
 
 using namespace std;
 using namespace a_matrices;
@@ -25,9 +26,9 @@ public:
 		size_t N;
 		checkArguments(outputs, inputs, N);
 
-		Matrix<double> M_mat=ColMajor2RowMajor(static_cast<TypedArray<double>>(inputs[0]));
-		Matrix<double> C_mat=ColMajor2RowMajor(static_cast<TypedArray<double>>(inputs[1]));
-		Matrix<double> K_mat=ColMajor2RowMajor(static_cast<TypedArray<double>>(inputs[2]));
+		Matrix<double> M_mat=MatlabMat2Matrix<double>(inputs[0]);
+		Matrix<double> C_mat=MatlabMat2Matrix<double>(inputs[1]);
+		Matrix<double> K_mat=MatlabMat2Matrix<double>(inputs[2]);
 
 		bool isPropotional=false;
 		if (inputs.size() == 4)
@@ -49,7 +50,7 @@ public:
 		//Outputs
 		outputs[0] = std::move(RowMajor2ColMajor(EigVectors_Normalized));
 		if (outputs.size() > 1)
-			outputs[1] = factory.createArray<complex<double> >({1, 2 * N }, &EigVal_vec[0], &EigVal_vec[2*N]);
+			outputs[1] = factory.createArray<complex<double> >({2 * N ,1}, &EigVal_vec[0], &EigVal_vec[2*N]);
 
 		return;
 	}

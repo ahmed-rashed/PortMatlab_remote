@@ -8,15 +8,15 @@ Windows
         gcc -c -DMX_COMPAT_64 -DMATLAB_MEXCMD_RELEASE=R2018a -DUSE_MEX_CMD   -m64 -DMATLAB_MEX_FILE  -I"${MATLABROOT}/extern/include" -fexceptions -fno-omit-frame-pointer -O2 -fwrapv -DNDEBUG mexFunction.c -o mexFunction.obj
         gcc -c -DMX_COMPAT_64 -DMATLAB_MEXCMD_RELEASE=R2018a -DUSE_MEX_CMD   -m64 -DMATLAB_MEX_FILE  -I"${MATLABROOT}/extern/include" -fexceptions -fno-omit-frame-pointer -g                   mexFunction.c -o mexFunction.obj
 
-        gcc -m64 -Wl,--no-undefined -shared -static -s -Wl,exportsmexfileversion.def mexFunction.obj Free_Response.obj  -L"${MATLABROOT}\extern\lib\win64\mingw64" -llibmx -llibmex -llibmat -o mexFunction.mexw64
-        gcc -m64 -Wl,--no-undefined -shared -static -g -Wl,exportsmexfileversion.def mexFunction.obj Free_Response.obj  -L"${MATLABROOT}\extern\lib\win64\mingw64" -llibmx -llibmex -llibmat -o mexFunction.mexw64
+        gcc -m64 -Wl,--no-undefined -shared -static -s -Wl,"${MATLABROOT}/extern/lib/win64/mingw64/exportsmexfileversion.def" mexFunction.obj Free_Response.obj  -L"${MATLABROOT}\extern\lib\win64\mingw64" -llibmx -llibmex -llibmat -o mexFunction.mexw64
+        gcc -m64 -Wl,--no-undefined -shared -static -g -Wl,"${MATLABROOT}/extern/lib/win64/mingw64/exportsmexfileversion.def" mexFunction.obj Free_Response.obj  -L"${MATLABROOT}\extern\lib\win64\mingw64" -llibmx -llibmex -llibmat -o mexFunction.mexw64
 
     MinGW-w64 C++
         g++ -c -DMX_COMPAT_64 -DMATLAB_MEXCMD_RELEASE=R2018a -DUSE_MEX_CMD   -m64 -DMATLAB_MEX_FILE  -I"${MATLABROOT}/extern/include" -fexceptions -fno-omit-frame-pointer -std=c++11 -g                   mexFunction.cpp -o mexFunction.obj
         g++ -c -DMX_COMPAT_64 -DMATLAB_MEXCMD_RELEASE=R2018a -DUSE_MEX_CMD   -m64 -DMATLAB_MEX_FILE  -I"${MATLABROOT}/extern/include" -fexceptions -fno-omit-frame-pointer -std=c++11 -O2 -fwrapv -DNDEBUG mexFunction.cpp -o mexFunction.obj
 
-        g++ -m64 -Wl,--no-undefined -shared -static -g -Wl,exportsmexfileversion.def mexFunction.obj Free_Response.obj cpp_mexapi_version.obj -L"${MATLABROOT}\extern\lib\win64\mingw64" -llibmx -llibmex -llibmat -lm -o mexFunction.mexw64
-        g++ -m64 -Wl,--no-undefined -shared -static -s -Wl,exportsmexfileversion.def mexFunction.obj Free_Response.obj cpp_mexapi_version.obj -L"${MATLABROOT}\extern\lib\win64\mingw64" -llibmx -llibmex -llibmat -lm -o mexFunction.mexw64
+        g++ -m64 -Wl,--no-undefined -shared -static -g -Wl,"${MATLABROOT}/extern/lib/win64/mingw64/exportsmexfileversion.def" mexFunction.obj Free_Response.obj cpp_mexapi_version.obj -L"${MATLABROOT}\extern\lib\win64\mingw64" -llibmx -llibmex -llibmat -lm -llibMatlabDataArray -llibMatlabEngine -o mexFunction.mexw64
+        g++ -m64 -Wl,--no-undefined -shared -static -s -Wl,"${MATLABROOT}/extern/lib/win64/mingw64/exportsmexfileversion.def" mexFunction.obj Free_Response.obj cpp_mexapi_version.obj -L"${MATLABROOT}\extern\lib\win64\mingw64" -llibmx -llibmex -llibmat -lm -llibMatlabDataArray -llibMatlabEngine -o mexFunction.mexw64
 
     MSVC C
         cl /c /Zp8 /GR /W3 /EHs /nologo /MD /O2 /Oy- /DNDEBUG /DMX_COMPAT_64  /DMATLAB_MEXCMD_RELEASE=R2018a  /DUSE_MEX_CMD   /D_CRT_SECURE_NO_DEPRECATE /D_SCL_SECURE_NO_DEPRECATE /D_SECURE_SCL=0   /DMATLAB_MEX_FILE -I"$(MATLABROOT\extern\include" "mexFunction.c" /FomexFunction.obj

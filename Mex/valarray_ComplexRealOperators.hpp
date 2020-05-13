@@ -168,7 +168,7 @@ inline std::valarray<std::complex<T> > operator/(const std::valarray<std::comple
 template <class T>
 inline std::valarray<std::complex<T> > operator/(const T &value, const std::valarray<std::complex<T> > &varray)
 {
-	std::valarray<std::complex<T> > Result(complex<T>(value,0),varray.size());
+	std::valarray<std::complex<T> > Result(std::complex<T>(value,0),varray.size());
 	Result/=varray;
 
 	return Result;

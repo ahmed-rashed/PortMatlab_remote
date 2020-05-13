@@ -217,6 +217,7 @@ FakesAssemblies/
 _Pvt_Extensions
 
 *.mexw64
+*.mexa64
 
 *.asv
 
