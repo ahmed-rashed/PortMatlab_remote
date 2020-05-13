@@ -285,3 +285,5 @@ target/
 *.u2d
 
 *.o
+
+language.settings.xml
