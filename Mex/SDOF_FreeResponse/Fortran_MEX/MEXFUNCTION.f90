@@ -69,7 +69,7 @@ SUBROUTINE MEXFUNCTION(NLHS, PLHS, NRHS, PRHS)
     NN=N
     x=FREE_RESPONSE(w_n,zeta,x0,v0,t,NN)
 
-    PLHS(1)=mxCreateDoubleMatrix(mxGetM(PRHS(5)),mxGetN(PRHS(5)),0)
+    PLHS(1)=mxCreateDoubleMatrix(mxGetM(PRHS(5)),mxGetN(PRHS(5)),INT(0,4))
     CALL mxCopyReal8ToPtr(x, mxGetDoubles(PLHS(1)), N)
 
 END SUBROUTINE MEXFUNCTION

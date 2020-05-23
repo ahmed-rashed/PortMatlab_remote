@@ -6,12 +6,14 @@ To build MEX-files under Microsoft Visual Studio: (Windows only)
 		Microsoft Visual C++
 		Intel Fortran Compiler
 	
+	Create environment variable called "MATLABROOT" that points to Matlab installation directory. E.g. MATLABROOT=C:\Program Files\Polyspace\R2019b
+	
 	Create a project (shared library project, or dynamic link library project, or otherwise empty project)
 
 	Project>Properties>General>Configuration Type>Dynamic Library (.dll)
 	
 	Project>Properties>Debugging>Command>
-		Add matlabroot\\bin\matlab.exe
+		Add matlabroot/bin/matlab.exe
 	
 	Add your MEX source files to the created project
 
@@ -24,17 +26,18 @@ To build MEX-files under Microsoft Visual Studio: (Windows only)
 	Configure the compiler as follows (This assumes a C/C++ project. If it is a Fortran project, replace C/C++ with Fortran)
 	  Project>Properties>C/C++>
 		General>Additional Include Directories> add the following paths
-			add matlabroot\\extern\include
+			add matlabroot/extern/include
 			add the directories with other headers you use (for example: Intel MKL or Armadiello)
 
-		Preprocessor>Preprocessor Definition> add MATLAB_MEX_FILE
+		Preprocessor>Preprocessor Definition> add:
+            MATLAB_MEX_FILE
 		
 		Fortran>Preprocessor>Preprocess Source File> Yes (/fpp)	(For Fortran projects only)
 
 	Configure the Linker as follows
 	  Project>Properties>Linker>
 			General>Additional Library Directories>
-				add matlabroot\\extern\lib\
+				add matlabroot/extern/lib
 				Add the directories with other libraries you use (for example: Intel MKL or Armadiello)
 
 			Input>
@@ -56,8 +59,8 @@ To build MEX-files under Eclipse IDE: (Windows and Linux)
 		
 	-lmx -lmex -lmat (libraries)
 	
-	Other compiler directives [matlabroot\\bin\mexopts.sh]
-	Specific directive for each compiler are in [matlabroot\\bin\arch\mexopts\*.xml] This has not been updated here yet
+	Other compiler directives [matlabroot/bin/mexopts.sh]
+	Specific directive for each compiler are in [matlabroot/bin/arch/mexopts/*.xml] This has not been updated here yet
 		gcc C compiler
 			-D_GNU_SOURCE
 			-fexceptions

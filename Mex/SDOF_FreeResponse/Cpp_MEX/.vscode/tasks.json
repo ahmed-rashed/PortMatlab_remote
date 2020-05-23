@@ -1,0 +1,118 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "make GCC Debug",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "-f",
+                "../Makefile",
+                "GCC_Debug"
+            ],
+            "problemMatcher": ["$gcc"],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "make GCC Release",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "-f",
+                "../Makefile",
+                "GCC_Release"
+            ],
+            "problemMatcher": "$gcc",
+            "group": "build"
+        },
+        {
+            "label": "make MINGW Debug",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "-f",
+                "../Makefile",
+                "MINGW_Debug"
+            ],
+            "problemMatcher": ["$gcc"],
+            "group": "test",
+        },
+        {
+            "label": "make MINGW Release",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "-f",
+                "../Makefile",
+                "MINGW_Release"
+            ],
+            "problemMatcher": "$gcc",
+            "group": "build"
+        },
+        {
+            "label": "make MSVC_IVF Debug",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "-f",
+                "../Makefile",
+                "MSVC_IVF_Debug"
+            ],
+            "problemMatcher": ["$gcc"],
+            "group": "test",
+        },
+        {
+            "label": "make MSVC_IVF Release",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "-f",
+                "../Makefile",
+                "MSVC_IVF_Release"
+            ],
+            "problemMatcher": "$gcc",
+            "group": "build"
+        },
+        {
+            "label": "make clean Debug",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "-f",
+                "../Makefile",
+                "cleanDebug"
+            ],
+            "problemMatcher": ["$gcc"],
+            "group": "test",
+        },
+        {
+            "label": "make clean Release",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "-f",
+                "../Makefile",
+                "cleanRelease"
+            ],
+            "problemMatcher": "$gcc",
+            "group": "build"
+        },
+        {
+            "label": "make clean",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "-f",
+                "../Makefile",
+                "clean"
+            ],
+            "problemMatcher": "$gcc",
+            "group": "build"
+        }
+    ]
+}

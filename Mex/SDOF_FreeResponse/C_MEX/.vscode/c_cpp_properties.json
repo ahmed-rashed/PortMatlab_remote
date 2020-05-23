@@ -1,0 +1,55 @@
+{
+    "configurations": [
+        {
+            "name": "GCC_and_MinGW",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${env:MATLABROOT}/extern/include"
+            ],
+            "defines": [
+                "MX_COMPAT_64",
+                "MATLAB_MEXCMD_RELEASE=R2018a",
+                "USE_MEX_CMD",
+                "MATLAB_MEX_FILE",
+                "_GNU_SOURCE"
+            ],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++14",
+            "intelliSenseMode": "gcc-x64",
+            "compilerArgs": [],
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/**"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            }
+        },
+        {
+            "name": "MSVC",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/usr/local/Polyspace/R2019b/extern/include"
+            ],
+            "defines": [
+                "MX_COMPAT_64",
+                "MATLAB_MEXCMD_RELEASE=R2018a",
+                "USE_MEX_CMD",
+                "MATLAB_MEX_FILE"
+            ],
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c11",
+            "cppStandard": "c++14",
+            "intelliSenseMode": "msvc-x64",
+            "compilerArgs": [],
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/**",
+                    "/usr/local/Polyspace/R2019b/extern/include"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            }
+        }
+    ],
+    "version": 4
+}

@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "C_MEX"
+		},
+		{
+			"path": "Cpp_MEX"
+		},
+		{
+			"path": "Fortran_MEX"
+		}
+	],
+	"settings": {}
+}
