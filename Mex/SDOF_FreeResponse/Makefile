@@ -4,21 +4,20 @@
 ifeq ($(OS),Windows_NT)
 	Ext=mexw64
 	ObjExt=obj
+	PWD := $(notdir $(shell cd))
 else
 	Ext=mexa64
 	ObjExt=o
+	PWD := $(notdir $(shell pwd))
 endif
 
-mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
-mkfile_dir := $(notdir $(patsubst %/,%,$(dir $(mkfile_path))))
-
-PWD = $(notdir $(shell pwd))
+PWD := $(notdir $(shell cd))
 
 EXEC_main = $(PWD).$(Ext)
 
 SRC_C=$(wildcard *.c)
 SRC_CPP=$(wildcard *.cpp)
-SRC_F=$(wildcard *.f90) ../../mx_interfaces.f90 ../../mex_interfaces.f90
+SRC_F=$(wildcard *.f90)
 
 MACROS=-DMX_COMPAT_64 -DMATLAB_MEXCMD_RELEASE=R2018a -DUSE_MEX_CMD -DMATLAB_MEX_FILE
 
@@ -49,7 +48,7 @@ LD=gcc
 CFLAGS = -I"$(MATLABROOT)/extern/include"
 CPPFLAGS = $(CFLAGS)
 FFLAGS = $(CFLAGS)
-LDFLAGS  = -Wl,--no-undefined -shared -Wl,-rpath-link,${MATLABROOT}/bin/glnxa64
+LDFLAGS  = -Wl,--no-undefined -shared -Wl,-rpath-link,"${MATLABROOT}/bin/glnxa64"
 LinkOutFlag = -o
 
 ################################################
@@ -109,7 +108,7 @@ GCC_C_LIBS = $(base_LIBS) -lstdc++
 GCC_CPP_LIBS = $(GCC_C_LIBS) -lMatlabDataArray
 GCC_F_LIBS = $(base_LIBS) -lgfortran
 GCC_LibPath = -L"${MATLABROOT}/bin/glnxa64"
-GCC_LDFLAGS = $(LDFLAGS) -pthread -Wl,--version-script,"mexFunction.map" -Wl,-rpath-link,${MATLABROOT}/bin/glnxa64
+GCC_LDFLAGS = $(LDFLAGS) -pthread -Wl,--version-script,"mexFunction.map" -Wl,-rpath-link,"${MATLABROOT}/bin/glnxa64"
 
 GCC_Release: base_LIBS:=$(GCC_base_LIBS)
 GCC_Release: C_LIBS:=$(GCC_C_LIBS)
@@ -196,10 +195,10 @@ $(OutRootDir)/$(DebugDir)/%.$(ObjExt): %.f90 | $(Mod_F_Debug) $(OutRootDir)/$(De
 	$(FC) -c $(MACROS) $(FFLAGS) $< -J"$(OutRootDir)/$(DebugDir)" -o $@
 
 $(OutRootDir)/$(ReleaseDir)/%.mod: ../../%.f90 | $(OutRootDir)/$(ReleaseDir)
-	$(FC) -c $(MACROS) $(FFLAGS) $< -J"$(OutRootDir)/$(ReleaseDir)" -o $(OutRootDir)/$(ReleaseDir)/$*.o
+	$(FC) -c $(MACROS) $(FFLAGS) $< -J"$(OutRootDir)/$(ReleaseDir)" -o $(OutRootDir)/$(ReleaseDir)/$*.$(ObjExt)
 
 $(OutRootDir)/$(DebugDir)/%.mod: ../../%.f90 | $(OutRootDir)/$(DebugDir)
-	$(FC) -c $(MACROS) $(FFLAGS) $< -J"$(OutRootDir)/$(DebugDir)" -o $(OutRootDir)/$(DebugDir)/$*.o
+	$(FC) -c $(MACROS) $(FFLAGS) $< -J"$(OutRootDir)/$(DebugDir)" -o $(OutRootDir)/$(DebugDir)/$*.$(ObjExt)
 
 ############################################################
 
@@ -210,4 +209,4 @@ $(OutRootDir)/$(DebugDir)/$(EXEC_main): $(OBJ_C_Debug) $(OBJ_CPP_Debug) $(OBJ_F_
 	$(LD) $(LDFLAGS) $(OBJ_C_Debug) $(OBJ_CPP_Debug) $(OBJ_F_Debug) $(LibPath) $(C_LIBS) $(CPP_LIBS) $(F_LIBS) $(LinkOutFlag) $@
 
 $(OutRootDir)/$(ReleaseDir) $(OutRootDir)/$(DebugDir):
-	mkdir -p $@
+	mkdir $@
