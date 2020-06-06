@@ -4,16 +4,20 @@
 ifeq ($(OS),Windows_NT)
 	Ext=mexw64
 	ObjExt=obj
-	PWD := $(notdir $(shell cd))
+	PWD :=$(notdir $(shell cd))
+	mkdir_CMD=mkdir
+	rm_CMD=rmdir /S /Q
 else
 	Ext=mexa64
 	ObjExt=o
-	PWD := $(notdir $(shell pwd))
+	PWD :=$(notdir $(shell pwd))
+	mkdir_CMD=mkdir -p
+	rm_CMD=rm -rf
 endif
 
-PWD := $(notdir $(shell cd))
+PWD :=$(notdir $(shell cd))
 
-EXEC_main = $(PWD).$(Ext)
+EXEC_main =$(PWD).$(Ext)
 
 SRC_C=$(wildcard *.c)
 SRC_CPP=$(wildcard *.cpp)
@@ -23,18 +27,18 @@ MACROS=-DMX_COMPAT_64 -DMATLAB_MEXCMD_RELEASE=R2018a -DUSE_MEX_CMD -DMATLAB_MEX_
 
 #Note that $(OutDebugDir): and $(OutReleaseDir): are targets. Therefore, make sure that any of them does not conflict with other targets, especially debug: and release:
 OutRootDir=.
-DebugDir = Debug
-ReleaseDir = Release
+DebugDir =Debug
+ReleaseDir =Release
 
-OBJ_C_Debug   = $(patsubst %.c,  $(OutRootDir)/$(DebugDir)/%.$(ObjExt),$(SRC_C))
-OBJ_CPP_Debug = $(patsubst %.cpp,$(OutRootDir)/$(DebugDir)/%.$(ObjExt),$(SRC_CPP))
-OBJ_F_Debug   = $(patsubst %.f90,$(OutRootDir)/$(DebugDir)/%.$(ObjExt),$(SRC_F))
-Mod_F_Debug   = $(OutRootDir)/$(DebugDir)/mx_interfaces.mod $(OutRootDir)/$(DebugDir)/mex_interfaces.mod
+OBJ_C_Debug   =$(patsubst %.c,  $(OutRootDir)/$(DebugDir)/%.$(ObjExt),$(SRC_C))
+OBJ_CPP_Debug =$(patsubst %.cpp,$(OutRootDir)/$(DebugDir)/%.$(ObjExt),$(SRC_CPP))
+OBJ_F_Debug   =$(patsubst %.f90,$(OutRootDir)/$(DebugDir)/%.$(ObjExt),$(SRC_F))
+Mod_F_Debug   =$(OutRootDir)/$(DebugDir)/mx_interfaces.mod $(OutRootDir)/$(DebugDir)/mex_interfaces.mod
 
-OBJ_C_Release   = $(patsubst %.c,  $(OutRootDir)/$(ReleaseDir)/%.$(ObjExt),$(SRC_C))
-OBJ_CPP_Release = $(patsubst %.cpp,$(OutRootDir)/$(ReleaseDir)/%.$(ObjExt),$(SRC_CPP))
-OBJ_F_Release   = $(patsubst %.f90,$(OutRootDir)/$(ReleaseDir)/%.$(ObjExt),$(SRC_F))
-Mod_F_Release   = $(OutRootDir)/$(ReleaseDir)/mx_interfaces.mod $(OutRootDir)/$(ReleaseDir)/mex_interfaces.mod
+OBJ_C_Release   =$(patsubst %.c,  $(OutRootDir)/$(ReleaseDir)/%.$(ObjExt),$(SRC_C))
+OBJ_CPP_Release =$(patsubst %.cpp,$(OutRootDir)/$(ReleaseDir)/%.$(ObjExt),$(SRC_CPP))
+OBJ_F_Release   =$(patsubst %.f90,$(OutRootDir)/$(ReleaseDir)/%.$(ObjExt),$(SRC_F))
+Mod_F_Release   =$(OutRootDir)/$(ReleaseDir)/mx_interfaces.mod $(OutRootDir)/$(ReleaseDir)/mex_interfaces.mod
 
 # Do not delete the $(Mod_F_Release) $(Mod_F_Debug) files
 .SECONDARY: $(Mod_F_Release) $(Mod_F_Debug)
@@ -45,27 +49,27 @@ CC=gcc
 CXX=g++
 FC=gfortran
 LD=gcc
-CFLAGS = -I"$(MATLABROOT)/extern/include"
-CPPFLAGS = $(CFLAGS)
-FFLAGS = $(CFLAGS)
-LDFLAGS  = -Wl,--no-undefined -shared -Wl,-rpath-link,"${MATLABROOT}/bin/glnxa64"
-LinkOutFlag = -o
+CFLAGS =-I"$(MATLABROOT)/extern/include"
+CPPFLAGS =$(CFLAGS)
+FFLAGS =$(CFLAGS)
+LDFLAGS  =-Wl,--no-undefined -shared
+LinkOutFlag =-o
 
 ################################################
-MSVC_IVF_CC=cl
-MSVC_IVF_CXX=cl
-MSVC_IVF_FC=ifort
-MSVC_IVF_LD=link
-MSVC_IVF_MACROS= $(patsubst -D,/D,$(MACROS)) /D_CRT_SECURE_NO_DEPRECATE /D_SCL_SECURE_NO_DEPRECATE /D_SECURE_SCL=0
-MSVC_IVF_CFLAGS   = $(CFLAGS) /c /Zp8 /GR /W3 /EHs /nologo /MD
-MSVC_IVF_CPPFLAGS = $(CPPFLAGS) /c /Zp8 /GR /W3 /EHs /nologo /MD
-MSVC_IVF_FFLAGS   = $(FFLAGS) /c /nologo /fpp /Qprec /MD /fp:source /assume:bscc /integer-size:64
-MSVC_IVF_C_LIBS = libmx.lib libmex.lib libmat.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib
-MSVC_IVF_CPP_LIBS = $(MSVC_IVF_C_LIBS) libMatlabDataArray.lib libMatlabEngine.lib
-MSVC_IVF_F_LIBS =  $(MSVC_IVF_C_LIBS)
-MSVC_IVF_LibPath = /LIBPATH:"$(MATLABROOT)/extern/lib/win64/microsoft"
-MSVC_IVF_LDFLAGS = /nologo /manifest /DLL /EXPORT:mexFunction /DEF:"ModuleDefinitionFile.def" /INCREMENTAL:NO 
-MSVC_IVF_LinkOutFlag = /out:
+MSVC_IVF_CC:=cl
+MSVC_IVF_CXX:=cl
+MSVC_IVF_FC:=ifort
+MSVC_IVF_LD:=link
+MSVC_IVF_MACROS:=$(patsubst -D,/D,$(MACROS)) /D_CRT_SECURE_NO_DEPRECATE /D_SCL_SECURE_NO_DEPRECATE /D_SECURE_SCL:=0
+MSVC_IVF_CFLAGS   :=$(CFLAGS) /c /Zp8 /GR /W3 /EHs /nologo /MD
+MSVC_IVF_CPPFLAGS :=$(CPPFLAGS) /c /Zp8 /GR /W3 /EHs /nologo /MD
+MSVC_IVF_FFLAGS   :=$(FFLAGS) /c /nologo /fpp /Qprec /MD /fp:source /assume:bscc /integer-size:64
+MSVC_IVF_C_LIBS :=libmx.lib libmex.lib libmat.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib
+MSVC_IVF_CPP_LIBS :=libMatlabDataArray.lib libMatlabEngine.lib
+MSVC_IVF_F_LIBS :=
+MSVC_IVF_LibPath :=/LIBPATH:"$(MATLABROOT)/extern/lib/win64/microsoft"
+MSVC_IVF_LDFLAGS :=/nologo /manifest /DLL /EXPORT:mexFunction /DEF:"ModuleDefinitionFile.def" /INCREMENTAL:NO 
+MSVC_IVF_LinkOutFlag :=/out:
 
 MSVC_IVF_Release: CC:=$(MSVC_IVF_CC)
 MSVC_IVF_Release: CCXX:=$(MSVC_IVF_CCXX)
@@ -77,10 +81,10 @@ MSVC_IVF_Release: F_LIBS:=$(MSVC_IVF_F_LIBS)
 MSVC_IVF_Release: LibPath:=$(MSVC_IVF_LibPath)
 MSVC_IVF_Release: LDFLAGS:=$(MSVC_IVF_LDFLAGS)
 MSVC_IVF_Release: LinkOutFlag:=$(MSVC_IVF_LinkOutFlag)
-MSVC_IVF_Release: MACROS   := $(MSVC_IVF_MACROS) /DNDEBUG
-MSVC_IVF_Release: CFLAGS   := $(MSVC_IVF_CFLAGS) /O2 /Oy-
-MSVC_IVF_Release: CPPFLAGS := $(MSVC_IVF_CPPFLAGS) /O2 /Oy-
-MSVC_IVF_Release: FFLAGS   := $(MSVC_IVF_FFLAGS) /O2
+MSVC_IVF_Release: MACROS   :=$(MSVC_IVF_MACROS) /DNDEBUG
+MSVC_IVF_Release: CFLAGS   :=$(MSVC_IVF_CFLAGS) /O2 /Oy-
+MSVC_IVF_Release: CPPFLAGS :=$(MSVC_IVF_CPPFLAGS) /O2 /Oy-
+MSVC_IVF_Release: FFLAGS   :=$(MSVC_IVF_FFLAGS) /O2
 
 MSVC_IVF_Debug: CC:=$(MSVC_IVF_CC)
 MSVC_IVF_Debug: CCXX:=$(MSVC_IVF_CCXX)
@@ -90,36 +94,36 @@ MSVC_IVF_Debug: C_LIBS:=$(MSVC_IVF_C_LIBS)
 MSVC_IVF_Debug: CPP_LIBS:=$(MSVC_IVF_CPP_LIBS)
 MSVC_IVF_Debug: F_LIBS:=$(MSVC_IVF_F_LIBS)
 MSVC_IVF_Debug: LibPath:=$(MSVC_IVF_LibPath)
-MSVC_IVF_Debug: LDFLAGS  := $(MSVC_IVF_LDFLAGS) /debug
+MSVC_IVF_Debug: LDFLAGS  :=$(MSVC_IVF_LDFLAGS) /debug
 MSVC_IVF_Debug: LinkOutFlag:=$(MSVC_IVF_LinkOutFlag)
-MSVC_IVF_Debug: MACROS   := $(MSVC_IVF_MACROS)
-MSVC_IVF_Debug: CFLAGS   := $(MSVC_IVF_CFLAGS) /Z7
-MSVC_IVF_Debug: CPPFLAGS := $(MSVC_IVF_CPPFLAGS) /Z7
-MSVC_IVF_Debug: FFLAGS   := $(MSVC_IVF_FFLAGS) /Z7
+MSVC_IVF_Debug: MACROS   :=$(MSVC_IVF_MACROS)
+MSVC_IVF_Debug: CFLAGS   :=$(MSVC_IVF_CFLAGS) /Z7
+MSVC_IVF_Debug: CPPFLAGS :=$(MSVC_IVF_CPPFLAGS) /Z7
+MSVC_IVF_Debug: FFLAGS   :=$(MSVC_IVF_FFLAGS) /Z7
 ################################################
 
 ################################################
-GCC_MACROS   = $(MACROS) -D_GNU_SOURCE
-GCC_CFLAGS   = $(CFLAGS) -fexceptions -fno-omit-frame-pointer -fPIC -pthread
-GCC_CPPFLAGS = $(GCC_CFLAGS)
-GCC_FFLAGS   = $(FFLAGS) -cpp -fPIC -fbackslash -fdefault-integer-8
-GCC_base_LIBS = -lmx -lmex -lmat -lm
-GCC_C_LIBS = $(base_LIBS) -lstdc++
-GCC_CPP_LIBS = $(GCC_C_LIBS) -lMatlabDataArray
-GCC_F_LIBS = $(base_LIBS) -lgfortran
-GCC_LibPath = -L"${MATLABROOT}/bin/glnxa64"
-GCC_LDFLAGS = $(LDFLAGS) -pthread -Wl,--version-script,"mexFunction.map" -Wl,-rpath-link,"${MATLABROOT}/bin/glnxa64"
+GCC_MACROS   :=$(MACROS) -D_GNU_SOURCE
+GCC_CFLAGS   :=$(CFLAGS) -fexceptions -fno-omit-frame-pointer -fPIC -pthread
+GCC_CPPFLAGS :=$(GCC_CFLAGS)
+GCC_FFLAGS   :=$(FFLAGS) -cpp -fPIC -fbackslash -fdefault-integer-8
+GCC_base_LIBS :=-lmx -lmex -lmat -lm
+GCC_C_LIBS :=$(base_LIBS) -lstdc++
+GCC_CPP_LIBS :=-lMatlabDataArray
+GCC_F_LIBS :=-lgfortran
+GCC_LibPath :=-L"${MATLABROOT}/bin/glnxa64"
+GCC_LDFLAGS :=$(LDFLAGS) -pthread -Wl,--version-script,"mexFunction.map" -Wl,-rpath-link,"${MATLABROOT}/bin/glnxa64"
 
 GCC_Release: base_LIBS:=$(GCC_base_LIBS)
 GCC_Release: C_LIBS:=$(GCC_C_LIBS)
 GCC_Release: CPP_LIBS:=$(GCC_CPP_LIBS)
 GCC_Release: F_LIBS:=$(GCC_F_LIBS)
 GCC_Release: LibPath:=$(GCC_LibPath)
-GCC_Release: MACROS   := $(GCC_MACROS) -DNDEBUG
-GCC_Release: CFLAGS   := $(GCC_CFLAGS) -O2 -fwrapv
-GCC_Release: CPPFLAGS := $(GCC_CPPFLAGS) -O2 -fwrapv
-GCC_Release: FFLAGS   := $(GCC_FFLAGS) -O2
-GCC_Release: LDFLAGS  := $(GCC_LDFLAGS) -s -O
+GCC_Release: MACROS   :=$(GCC_MACROS) -DNDEBUG
+GCC_Release: CFLAGS   :=$(GCC_CFLAGS) -O2 -fwrapv
+GCC_Release: CPPFLAGS :=$(GCC_CPPFLAGS) -O2 -fwrapv
+GCC_Release: FFLAGS   :=$(GCC_FFLAGS) -O2
+GCC_Release: LDFLAGS  :=$(GCC_LDFLAGS) -s -O
 
 GCC_Debug: MACROS:=$(GCC_MACROS)
 GCC_Debug: base_LIBS:=$(GCC_base_LIBS)
@@ -127,38 +131,36 @@ GCC_Debug: C_LIBS:=$(GCC_C_LIBS)
 GCC_Debug: CPP_LIBS:=$(GCC_CPP_LIBS)
 GCC_Debug: F_LIBS:=$(GCC_F_LIBS)
 GCC_Debug: LibPath:=$(GCC_LibPath)
-GCC_Debug: CFLAGS   := $(GCC_CFLAGS) -g
-GCC_Debug: CPPFLAGS := $(GCC_CPPFLAGS) -g
-GCC_Debug: FFLAGS   := $(GCC_FFLAGS) -g
-GCC_Debug: LDFLAGS  := $(GCC_LDFLAGS) -g
+GCC_Debug: CFLAGS   :=$(GCC_CFLAGS) -g
+GCC_Debug: CPPFLAGS :=$(GCC_CPPFLAGS) -g
+GCC_Debug: FFLAGS   :=$(GCC_FFLAGS) -g
+GCC_Debug: LDFLAGS  :=$(GCC_LDFLAGS) -g
 ################################################
 
 ################################################
-MINGW_CFLAGS   = $(CFLAGS) -fexceptions -fno-omit-frame-pointer -m64
-MINGW_CPPFLAGS = $(MINGW_CFLAGS)
-MINGW_C_LIBS = -llibmx -llibmex -llibmat
-MINGW_CPP_LIBS = $(C_LIBS) -lm -llibMatlabDataArray -llibMatlabEngine
-MINGW_LibPath = -L"${MATLABROOT}/extern/lib/win64/mingw64"
-MINGW_LDFLAGS = $(LDFLAGS) -m64 -Wl,"ModuleDefinitionFile.def"
+MINGW_CFLAGS   :=$(CFLAGS) -fexceptions -fno-omit-frame-pointer -m64
+MINGW_CPPFLAGS :=$(MINGW_CFLAGS)
+MINGW_C_LIBS :=-llibmx -llibmex -llibmat
+MINGW_CPP_LIBS :=-lm -llibMatlabDataArray -llibMatlabEngine
+MINGW_LibPath :=-L"${MATLABROOT}/extern/lib/win64/mingw64"
+MINGW_LDFLAGS :=$(LDFLAGS) -m64 -Wl,"ModuleDefinitionFile.def"
 
 MINGW_Release: C_LIBS:=$(MINGW_C_LIBS)
 MINGW_Release: CPP_LIBS:=$(MINGW_CPP_LIBS)
 MINGW_Release: LibPath:=$(MINGW_LibPath)
-MINGW_Release: LDFLAGS:=$(MINGW_LDFLAGS)
-MINGW_Release: MACROS   := $(MINGW_MACROS) -DNDEBUG
-MINGW_Release: CFLAGS   := $(MINGW_CFLAGS) -O2 -fwrapv
-MINGW_Release: CPPFLAGS := $(MINGW_CPPFLAGS) -O2 -fwrapv
-MINGW_Release: FFLAGS   := $(MINGW_FFLAGS) -O2
-MINGW_Release: LDFLAGS  := $(MINGW_LDFLAGS) -s -O
+MINGW_Release: MACROS   :=$(MINGW_MACROS) -DNDEBUG
+MINGW_Release: CFLAGS   :=$(MINGW_CFLAGS) -O2 -fwrapv
+MINGW_Release: CPPFLAGS :=$(MINGW_CPPFLAGS) -O2 -fwrapv
+MINGW_Release: FFLAGS   :=$(MINGW_FFLAGS) -O2
+MINGW_Release: LDFLAGS  :=$(MINGW_LDFLAGS) -s -O
 
 MINGW_Debug: C_LIBS:=$(MINGW_C_LIBS)
 MINGW_Debug: CPP_LIBS:=$(MINGW_CPP_LIBS)
 MINGW_Debug: LibPath:=$(MINGW_LibPath)
-MINGW_Debug: LDFLAGS:=$(MINGW_LDFLAGS)
-MINGW_Debug: CFLAGS   := $(MINGW_CFLAGS) -g
-MINGW_Debug: CPPFLAGS := $(MINGW_CPPFLAGS) -g
-MINGW_Debug: FFLAGS   := $(MINGW_FFLAGS) -g
-MINGW_Debug: LDFLAGS  := $(MINGW_LDFLAGS) -g
+MINGW_Debug: CFLAGS   :=$(MINGW_CFLAGS) -g
+MINGW_Debug: CPPFLAGS :=$(MINGW_CPPFLAGS) -g
+MINGW_Debug: FFLAGS   :=$(MINGW_FFLAGS) -g
+MINGW_Debug: LDFLAGS  :=$(MINGW_LDFLAGS) -g
 ################################################
 
 ################################################
@@ -168,10 +170,10 @@ MSVC_IVF_Release GCC_Release MINGW_Release: $(OutRootDir)/$(ReleaseDir)/$(EXEC_m
 MSVC_IVF_Debug GCC_Debug MINGW_Debug:       $(OutRootDir)/$(DebugDir)/$(EXEC_main)
 
 cleanDebug:
-	rm -rf $(OutRootDir)/$(DebugDir)
+	-$(rm_CMD) "$(OutRootDir)/$(DebugDir)"
 
 cleanRelease:
-	rm -rf $(OutRootDir)/$(ReleaseDir)
+	-$(rm_CMD) "$(OutRootDir)/$(ReleaseDir)"
 
 clean: cleanDebug cleanRelease
 ############################################################
@@ -209,4 +211,4 @@ $(OutRootDir)/$(DebugDir)/$(EXEC_main): $(OBJ_C_Debug) $(OBJ_CPP_Debug) $(OBJ_F_
 	$(LD) $(LDFLAGS) $(OBJ_C_Debug) $(OBJ_CPP_Debug) $(OBJ_F_Debug) $(LibPath) $(C_LIBS) $(CPP_LIBS) $(F_LIBS) $(LinkOutFlag) $@
 
 $(OutRootDir)/$(ReleaseDir) $(OutRootDir)/$(DebugDir):
-	mkdir $@
+	-$(mkdir_CMD) $@
