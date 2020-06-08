@@ -10,13 +10,11 @@
             "args": [
                 "-f",
                 "../Makefile",
-                "GCC_Debug"
+                "GCC_Debug",
+                "LD=gfortran"
             ],
-            "problemMatcher": ["$gcc"],
-            "group": {
-                "kind": "test",
-                "isDefault": true
-            }
+            "problemMatcher": "$gcc",
+            "group": "test"
         },
         {
             "label": "make GCC Release",
@@ -25,7 +23,8 @@
             "args": [
                 "-f",
                 "../Makefile",
-                "GCC_Release"
+                "GCC_Release",
+                "LD=gfortran"
             ],
             "problemMatcher": "$gcc",
             "group": "build"
@@ -39,7 +38,7 @@
                 "../Makefile",
                 "MINGW_Debug"
             ],
-            "problemMatcher": ["$gcc"],
+            "problemMatcher": "$gcc",
             "group": "test",
         },
         {
@@ -63,7 +62,7 @@
                 "../Makefile",
                 "MSVC_IVF_Debug"
             ],
-            "problemMatcher": ["$gcc"],
+            "problemMatcher": "$msCompile",
             "group": "test",
         },
         {
@@ -75,7 +74,7 @@
                 "../Makefile",
                 "MSVC_IVF_Release"
             ],
-            "problemMatcher": "$gcc",
+            "problemMatcher": "$msCompile",
             "group": "build"
         },
         {
@@ -87,7 +86,7 @@
                 "../Makefile",
                 "cleanDebug"
             ],
-            "problemMatcher": ["$gcc"],
+            "problemMatcher": "$gcc",
             "group": "test",
         },
         {

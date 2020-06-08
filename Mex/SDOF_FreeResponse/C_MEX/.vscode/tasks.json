@@ -12,11 +12,8 @@
                 "../Makefile",
                 "GCC_Debug"
             ],
-            "problemMatcher": ["$gcc"],
-            "group": {
-                "kind": "test",
-                "isDefault": true
-            }
+            "problemMatcher": "$gcc",
+            "group": "test"
         },
         {
             "label": "make GCC Release",
@@ -39,7 +36,7 @@
                 "../Makefile",
                 "MINGW_Debug"
             ],
-            "problemMatcher": ["$gcc"],
+            "problemMatcher": "$gcc",
             "group": "test",
         },
         {
@@ -63,7 +60,7 @@
                 "../Makefile",
                 "MSVC_IVF_Debug"
             ],
-            "problemMatcher": ["$gcc"],
+            "problemMatcher": "$msCompile",
             "group": "test",
         },
         {
@@ -75,7 +72,7 @@
                 "../Makefile",
                 "MSVC_IVF_Release"
             ],
-            "problemMatcher": "$gcc",
+            "problemMatcher": "$msCompile",
             "group": "build"
         },
         {
@@ -87,7 +84,7 @@
                 "../Makefile",
                 "cleanDebug"
             ],
-            "problemMatcher": ["$gcc"],
+            "problemMatcher": "$gcc",
             "group": "test",
         },
         {
