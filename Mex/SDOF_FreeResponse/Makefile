@@ -15,7 +15,7 @@ else
 	rm_CMD=rm -rf
 endif
 
-EXEC_main =$(PWD).$(Ext)
+MEX-File =$(PWD).$(Ext)
 
 SRC_C=$(wildcard *.c)
 SRC_CPP=$(wildcard *.cpp)
@@ -23,10 +23,9 @@ SRC_F=$(wildcard *.f90)
 
 MACROS=-DMX_COMPAT_64 -DMATLAB_MEXCMD_RELEASE=R2018a -DUSE_MEX_CMD -DMATLAB_MEX_FILE
 
-#Note that $(OutDebugDir): and $(OutReleaseDir): are targets. Therefore, make sure that any of them does not conflict with other targets, especially debug: and release:
 OutRootDir=.
-DebugDir =Debug
-ReleaseDir =Release
+DebugDir  =Debug
+ReleaseDir=Release
 
 OBJ_C_Debug   =$(patsubst %.c,  $(OutRootDir)/$(DebugDir)/%.$(ObjExt),$(SRC_C))
 OBJ_CPP_Debug =$(patsubst %.cpp,$(OutRootDir)/$(DebugDir)/%.$(ObjExt),$(SRC_CPP))
@@ -101,7 +100,7 @@ MSVC_IVF_Debug: C_LIBS:=$(MSVC_IVF_C_LIBS)
 MSVC_IVF_Debug: CPP_LIBS:=$(MSVC_IVF_CPP_LIBS)
 MSVC_IVF_Debug: F_LIBS:=$(MSVC_IVF_F_LIBS)
 MSVC_IVF_Debug: LibPath:=$(MSVC_IVF_LibPath)
-MSVC_IVF_Debug: LDFLAGS  :=$(MSVC_IVF_LDFLAGS) /debug /PDB:"$(OutRootDir)/$(DebugDir)/$(EXEC_main).mexw64.pdb"
+MSVC_IVF_Debug: LDFLAGS  :=$(MSVC_IVF_LDFLAGS) /debug /PDB:"$(OutRootDir)/$(DebugDir)/$(MEX-File).mexw64.pdb"
 MSVC_IVF_Debug: LinkOutFlag:=$(MSVC_IVF_LinkOutFlag)
 MSVC_IVF_Debug: ModOutFlag:=$(MSVC_IVF_ModOutFlag)
 MSVC_IVF_Debug: MACROS   :=$(MSVC_IVF_MACROS)
@@ -171,19 +170,23 @@ MINGW_Debug: LDFLAGS  :=$(MINGW_LDFLAGS) -g
 
 ################################################
 #Callable Targets
-MSVC_IVF_Release GCC_Release MINGW_Release: $(OutRootDir)/$(ReleaseDir)/$(EXEC_main)
+MSVC_IVF_Release GCC_Release MINGW_Release: $(OutRootDir)/$(ReleaseDir)/$(MEX-File)
 
-MSVC_IVF_Debug GCC_Debug MINGW_Debug:       $(OutRootDir)/$(DebugDir)/$(EXEC_main)
+MSVC_IVF_Debug GCC_Debug MINGW_Debug:       $(OutRootDir)/$(DebugDir)/$(MEX-File)
 
 cleanDebug:
 	-$(rm_CMD) "$(OutRootDir)/$(DebugDir)"
+	@echo cleanDebug done
 
 cleanRelease:
 	-$(rm_CMD) "$(OutRootDir)/$(ReleaseDir)"
+	@echo cleanRelease done
 
 clean: cleanDebug cleanRelease
 ############################################################
+
 # Pattern Rules
+# Multiple targets cannot be used with pattern rules [https://www.gnu.org/software/make/manual/html_node/Multiple-Targets.html]
 $(OutRootDir)/$(ReleaseDir)/%.$(ObjExt): %.c | $(OutRootDir)/$(ReleaseDir)
 	$(CC) $(Compile_Flag) $(MACROS) $(CFLAGS) $< $(CompileOutFlag)"$@"
 
@@ -193,7 +196,7 @@ $(OutRootDir)/$(DebugDir)/%.$(ObjExt):   %.c | $(OutRootDir)/$(DebugDir)
 $(OutRootDir)/$(ReleaseDir)/%.$(ObjExt): %.cpp | $(OutRootDir)/$(ReleaseDir)
 	$(CXX) $(Compile_Flag) $(MACROS) $(CPPFLAGS) $< $(CompileOutFlag)"$@"
 
-$(OutRootDir)/$(DebugDir)/%.$(ObjExt): %.cpp | $(OutRootDir)/$(DebugDir)
+$(OutRootDir)/$(DebugDir)/%.$(ObjExt):   %.cpp | $(OutRootDir)/$(DebugDir)
 	$(CXX) $(Compile_Flag) $(MACROS) $(CPPFLAGS) $< $(CompileOutFlag)"$@"
 
 $(OutRootDir)/$(ReleaseDir)/%.$(ObjExt): %.f90 | $(Mod_F_Release) $(OutRootDir)/$(ReleaseDir)
@@ -210,11 +213,13 @@ $(OutRootDir)/$(DebugDir)/%.mod: ../../%.f90 | $(OutRootDir)/$(DebugDir)
 
 ############################################################
 
-$(OutRootDir)/$(ReleaseDir)/$(EXEC_main): $(OBJ_C_Release) $(OBJ_CPP_Release) $(OBJ_F_Release)
-	$(LD) $(LDFLAGS) $(OBJ_C_Release) $(OBJ_CPP_Release) $(OBJ_F_Release) $(LibPath) $(C_LIBS) $(CPP_LIBS) $(F_LIBS) $(LinkOutFlag)$@
-
-$(OutRootDir)/$(DebugDir)/$(EXEC_main): $(OBJ_C_Debug) $(OBJ_CPP_Debug) $(OBJ_F_Debug)
-	$(LD) $(LDFLAGS) $(OBJ_C_Debug) $(OBJ_CPP_Debug) $(OBJ_F_Debug) $(LibPath) $(C_LIBS) $(CPP_LIBS) $(F_LIBS) $(LinkOutFlag)$@
-
+# Create output directory
 $(OutRootDir)/$(ReleaseDir) $(OutRootDir)/$(DebugDir):
 	-$(mkdir_CMD) $@
+
+# Create the MEX-file
+# Multiple targets cannot be used with pattern rules [https://www.gnu.org/software/make/manual/html_node/Multiple-Targets.html]
+$(OutRootDir)/$(ReleaseDir)/$(MEX-File): $(OBJ_C_Release) $(OBJ_CPP_Release) $(OBJ_F_Release)
+$(OutRootDir)/$(DebugDir)/$(MEX-File):   $(OBJ_C_Debug) $(OBJ_CPP_Debug) $(OBJ_F_Debug)
+$(OutRootDir)/$(ReleaseDir)/$(MEX-File) $(OutRootDir)/$(DebugDir)/$(MEX-File):
+	$(LD) $(LDFLAGS) $^ $(LibPath) $(C_LIBS) $(CPP_LIBS) $(F_LIBS) $(LinkOutFlag)$@
