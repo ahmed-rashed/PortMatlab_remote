@@ -17,9 +17,9 @@ figure
 hold all
 for n=1:length(zeta_vec)
     x_vec=Free_Response(w_n,zeta_vec(n),x0,v0,t_vec);
-    x_vec1=C_MEX(w_n,zeta_vec(n),x0,v0,t_vec);clear C_MEX;max(abs(x_vec1-x_vec)),x_vec=x_vec1;
-    x_vec2=Cpp_MEX(w_n,zeta_vec(n),x0,v0,t_vec);clear Cpp_MEX;max(abs(x_vec2-x_vec)),x_vec=x_vec2;
-    x_vec3=Fortran_MEX(w_n,zeta_vec(n),x0,v0,t_vec);clear Fortran_MEX;max(abs(x_vec3-x_vec)),x_vec=x_vec3;
+%    x_vec1=C_MEX(w_n,zeta_vec(n),x0,v0,t_vec);clear C_MEX;max(abs(x_vec1-x_vec)),x_vec=x_vec1;
+%    x_vec2=Cpp_MEX(w_n,zeta_vec(n),x0,v0,t_vec);clear Cpp_MEX;max(abs(x_vec2-x_vec)),x_vec=x_vec2;
+%    x_vec3=Fortran_MEX(w_n,zeta_vec(n),x0,v0,t_vec);clear Fortran_MEX;max(abs(x_vec3-x_vec)),x_vec=x_vec3;
     plot(t_vec/T_n,x_vec)
 end
 

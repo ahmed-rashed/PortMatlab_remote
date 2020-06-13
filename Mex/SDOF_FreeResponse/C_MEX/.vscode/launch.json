@@ -1,0 +1,50 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "(cl.exe) Attach Matlab under Windows",
+            "type": "cppvsdbg",
+            "request": "attach",
+            "processId": "${command:pickProcess}",
+            "preLaunchTask": "make MSVC_IVF Debug"
+        },
+        {
+            "name": "(gdb) Attach Matlab under Windows",
+            "type": "cppdbg",
+            "request": "attach",
+            "program": "${env:MATLABROOT}/bin/win64/MATLAB.exe",
+            "processId": "${command:pickProcess}",
+            "MIMode": "gdb",
+            "miDebuggerPath": "${env:MW_MINGW64_LOC}/bin/gdb.exe",
+            "setupCommands": [
+                {
+                    "text": "handle SIGSEGV nostop"
+                },
+                {
+                     "text": "handle SIGSEGV noprint"
+                }
+            ],
+            "preLaunchTask": "make MINGW Debug"
+        },
+        {
+            "name": "(gdb) Attach Matlab under Ubuntu",
+            "type": "cppdbg",
+            "request": "attach",
+            "program": "${env:MATLABROOT}/bin/glnxa64/MATLAB",
+            "processId": "${command:pickProcess}",
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "text": "handle SIGSEGV nostop"
+                },
+                {
+                     "text": "handle SIGSEGV noprint"
+                }
+            ],
+            "preLaunchTask": "make GCC Debug"
+        }
+    ]
+}
