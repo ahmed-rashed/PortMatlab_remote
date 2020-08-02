@@ -7,10 +7,7 @@
             "label": "make GCC Debug",
             "type": "shell",
             "command": "make",
-            "args": [
-                "-f",
-                "../Makefile",
-                "GCC_Debug"
+            "args": ["-f", "../Makefile", "GCC_Debug"
             ],
             "problemMatcher": "$gcc",
             "group": "test"
@@ -19,11 +16,7 @@
             "label": "make GCC Release",
             "type": "shell",
             "command": "make",
-            "args": [
-                "-f",
-                "../Makefile",
-                "GCC_Release"
-            ],
+            "args": ["-f", "../Makefile", "GCC_Release"],
             "problemMatcher": "$gcc",
             "group": "build"
         },
@@ -31,23 +24,15 @@
             "label": "make MINGW Debug",
             "type": "shell",
             "command": "make",
-            "args": [
-                "-f",
-                "../Makefile",
-                "MINGW_Debug"
-            ],
+            "args": ["-f", "../Makefile","MINGW_Debug"],
             "problemMatcher": "$gcc",
-            "group": "test",
+            "group": "test"
         },
         {
             "label": "make MINGW Release",
             "type": "shell",
             "command": "make",
-            "args": [
-                "-f",
-                "../Makefile",
-                "MINGW_Release"
-            ],
+            "args": ["-f", "../Makefile", "MINGW_Release"],
             "problemMatcher": "$gcc",
             "group": "build"
         },
@@ -55,23 +40,15 @@
             "label": "make MSVC_IVF Debug",
             "type": "shell",
             "command": "make",
-            "args": [
-                "-f",
-                "../Makefile",
-                "MSVC_IVF_Debug"
-            ],
+            "args": ["-f", "../Makefile", "MSVC_IVF_Debug"],
             "problemMatcher": "$msCompile",
-            "group": "test",
+            "group": "test"
         },
         {
             "label": "make MSVC_IVF Release",
             "type": "shell",
             "command": "make",
-            "args": [
-                "-f",
-                "../Makefile",
-                "MSVC_IVF_Release"
-            ],
+            "args": ["-f", "../Makefile", "MSVC_IVF_Release"],
             "problemMatcher": "$msCompile",
             "group": "build"
         },
@@ -79,23 +56,15 @@
             "label": "make clean Debug",
             "type": "shell",
             "command": "make",
-            "args": [
-                "-f",
-                "../Makefile",
-                "cleanDebug"
-            ],
+            "args": ["-f", "../Makefile", "cleanDebug"],
             "problemMatcher": "$gcc",
-            "group": "test",
+            "group": "test"
         },
         {
             "label": "make clean Release",
             "type": "shell",
             "command": "make",
-            "args": [
-                "-f",
-                "../Makefile",
-                "cleanRelease"
-            ],
+            "args": ["-f", "../Makefile", "cleanRelease"],
             "problemMatcher": "$gcc",
             "group": "build"
         },
@@ -103,13 +72,19 @@
             "label": "make clean",
             "type": "shell",
             "command": "make",
-            "args": [
-                "-f",
-                "../Makefile",
-                "clean"
-            ],
+            "args": ["-f", "../Makefile", "clean"],
             "problemMatcher": "$gcc",
             "group": "build"
+        },
+        {
+            "label": "CMake Debug",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceRoot}/build"
+            },
+            "command": "CMake",
+            "args": ["-G", "NMake Makefiles", "-DCMAKE_BUILD_TYPE=Debug", ".."],
+            "problemMatcher": []
         }
     ]
 }
