@@ -287,3 +287,7 @@ target/
 *.o
 
 language.settings.xml
+
+*.svg
+*.pdf
+*.png
