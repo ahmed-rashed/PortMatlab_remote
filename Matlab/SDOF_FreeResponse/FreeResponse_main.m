@@ -9,7 +9,8 @@ f_n=w_n/2/pi;
 T_n=1/f_n;
 
 zeta_vec=[0,.1,.2,.4,1/sqrt(2),1,2];
-legend_string={'$\zeta = 0$','$\zeta = 0.1$','$\zeta = 0.2$','$\zeta = 0.4$','$\zeta=1/\sqrt{2}$','$\zeta = 1$','$\zeta = 2$'};
+legend_str="$\zeta = "+zeta_vec+'$';
+legend_str(5)="$\zeta=1/\sqrt{2}$";
 
 t_vec=linspace(0,2*T_n,500);
 
@@ -26,7 +27,7 @@ end
 title('$x(t)$ for $\omega_{n}=1$, $x_{0}=-1$ and $v_{0}=0$','interpreter','latex');
 xlabel('$t/T_{n}\qquad,:T_{n}=1/f_{n}=2\pi/\omega_{n}$','interpreter','latex');
 
-legend(legend_string,'interpreter','latex','Location','SouthEast');
+legend(legend_str,'interpreter','latex','Location','SouthEast');
 grid on
 
-export_figure(gcf,'',{'SDOF_1'})
+export_figure(gcf,'',"SDOF_1")

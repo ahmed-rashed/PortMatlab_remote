@@ -85,7 +85,7 @@ ax_phase=subplot(4,1,4);hold all
 
 legend_str=cell(length(jj_row),1);
 for ii=1:length(jj_row)
-    legend_str(ii)=cellstr(['$H_{1,',int2str(jj_row(ii)),'}$']);
+    legend_str(ii)=cellstr("$H_{1,"+jj_row(ii)+'}$');
     
     figure(f_3d)
     plot_FRF_3d(f_col,H_cols(:,ii),'','',1);
@@ -108,4 +108,4 @@ legend(ax_r,legend_str,'interpreter','latex','Location','NorthEast')
 
 legend(ax_mag,legend_str,'interpreter','latex','Location','NorthEast')
 
-export_figure((1:4),'',{'H_MDOF_3D','H_MDOF_r_i','H_MDOF_Nyq','H_MDOF_mag_phase'})
+export_figure((1:4),'',["H_MDOF_3D","H_MDOF_r_i","H_MDOF_Nyq","H_MDOF_mag_phase"])

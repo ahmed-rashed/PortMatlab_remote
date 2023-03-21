@@ -170,16 +170,16 @@ if isgraphics(ax_phase_h)
     yTicks=[yLim_min:yStep:yLim_max];
     N_ticks=length(yTicks);
     set(ax_phase_h,'YTick',yTicks);
-    yTickLabels=cell(1,N_ticks);
+    yTickLabels=strings(1,N_ticks);
     for ii=1:N_ticks
         if yTicks(ii)==0
-            yTickLabels{ii}='$0$';
+            yTickLabels(ii)='$0$';
         elseif yTicks(ii)==pi
-            yTickLabels{ii}='$\pi$';
+            yTickLabels(ii)='$\pi$';
         elseif yTicks(ii)==-pi
-            yTickLabels{ii}='$-\pi$';
+            yTickLabels(ii)='$-\pi$';
         else
-            yTickLabels{ii}=['$',num2str(yTicks(ii)/pi),'\pi$'];
+            yTickLabels(ii)="$"+(yTicks(ii)/pi)+'\pi$';
         end
     end
     ax_phase_h.YAxis.TickLabelInterpreter='latex';

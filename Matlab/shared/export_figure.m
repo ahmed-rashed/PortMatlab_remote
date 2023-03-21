@@ -1,5 +1,5 @@
 function export_figure(fig_handle_vec, ...
-                    Expand,filenames,resolution,pictureFormat_cVec,dimScale)   %Optional arguments
+                    Expand,filenames,resolution,pictureFormat_vec,dimScale)   %Optional arguments
 
 if nargin<2
     Expand='';
@@ -12,12 +12,12 @@ elseif isempty(resolution)
 end
 
 if nargin<5
-    pictureFormat_cVec={'pdf'};
-elseif isempty(pictureFormat_cVec)
-    pictureFormat_cVec={'pdf'};
+    pictureFormat_vec="pdf";
+elseif isempty(pictureFormat_vec)
+    pictureFormat_vec="pdf";
 else
-    if ~iscell(pictureFormat_cVec)
-        error('pictureFormat must be cell array of strings.')
+    if ~isstring(pictureFormat_vec)
+        error('pictureFormat_vec must be array of strings.')
     end
 end
 
@@ -25,16 +25,16 @@ if nargin<6
     dimScale=[];
 end
 
-printFlag_cVec=cell(size(pictureFormat_cVec));
-for n=1:length(pictureFormat_cVec)
-    if strcmpi(pictureFormat_cVec{n},'emf')
+printFlag_vec=strings(size(pictureFormat_vec));
+for n=1:length(pictureFormat_vec)
+    if strcmpi(pictureFormat_vec{n},'emf')
         if ispc
-            printFlag_cVec{n}='meta';
+            printFlag_vec(n)="meta";
         else
             error('Matlab cannot export emf except under Windows.');
         end
     else
-        printFlag_cVec{n}=lower(pictureFormat_cVec{n});
+        printFlag_vec(n)=lower(pictureFormat_vec(n));
     end
 end
 
@@ -42,13 +42,13 @@ if min(size(fig_handle_vec,1),size(fig_handle_vec,2))~=1
     error('h must be 1 D vector'),
 end
 
-if ~iscellstr(filenames)
-    error('filenames must be a cell string of the same length as h_vec');
+if ~isstring(filenames)
+    error('filenames must be a string array');
 end
     
 if nargin>2
     if length(fig_handle_vec)~=length(filenames)
-        error('h & filenames must be of the same length');
+        error('fig_handle_vec & filenames must be of the same length');
     end
 end
 
@@ -60,52 +60,52 @@ if ~isempty(Expand)
     end
 end
 
-for i=1:length(fig_handle_vec)
-    f_OriginalUnit=get(fig_handle_vec(i),'Units');
-    set(fig_handle_vec(i),'papertype','A4');
+for fig_handle=fig_handle_vec
+    f_OriginalUnit=get(fig_handle,'Units');
+    set(fig_handle,'papertype','A4');
     if ~isempty(Expand)
         if ischar(Expand)
             if strcmpi(Expand(1:2),'||')
-                 set(fig_handle_vec(i),'PaperOrientation','portrait');
+                 set(fig_handle,'PaperOrientation','portrait');
             elseif strcmpi(Expand(1:2),'==')
-               set(fig_handle_vec(i),'PaperOrientation','landscape');
+               set(fig_handle,'PaperOrientation','landscape');
             end
         end
         
         if ischar(Expand)
             if strcmpi(Expand,'||') || strcmpi(Expand,'==')
-                a=get(fig_handle_vec(i),'papersize');
-                set(fig_handle_vec(i),'PaperPositionMode','manual');
-                set(fig_handle_vec(i),'PaperPosition',[0 0 a(1) a(2)]);
-                set(fig_handle_vec(i),'Units',get(fig_handle_vec(i),'PaperUnits'));
-                set(fig_handle_vec(i),'Position',[0 0 a(1) a(2)]);
-                set(fig_handle_vec(i),'Units',f_OriginalUnit);
-                set(0,'CurrentFigure',fig_handle_vec(i)),
+                a=get(fig_handle,'papersize');
+                set(fig_handle,'PaperPositionMode','manual');
+                set(fig_handle,'PaperPosition',[0 0 a(1) a(2)]);
+                set(fig_handle,'Units',get(fig_handle,'PaperUnits'));
+                set(fig_handle,'Position',[0 0 a(1) a(2)]);
+                set(fig_handle,'Units',f_OriginalUnit);
+                set(0,'CurrentFigure',fig_handle),
                 drawnow
             else
-                set(fig_handle_vec(i),'PaperPositionMode','auto');
+                set(fig_handle,'PaperPositionMode','auto');
             end
         end
         if ~isempty(dimScale)
-            pos=get(fig_handle_vec(i),'PaperPosition');
-            set(fig_handle_vec(i),'PaperPositionMode','manual');
-            set(fig_handle_vec(i),'PaperPosition',[pos(1:2),pos(3:4).*dimScale/max(dimScale)]);
+            pos=get(fig_handle,'PaperPosition');
+            set(fig_handle,'PaperPositionMode','manual');
+            set(fig_handle,'PaperPosition',[pos(1:2),pos(3:4).*dimScale/max(dimScale)]);
         end
     end
 end
 
 for i=1:length(fig_handle_vec)
-    for n=1:length(printFlag_cVec)
-        if any(strcmp(printFlag_cVec{n},{'meta','pdf','eps','epsc','svg'}))
+    for n=1:length(printFlag_vec)
+        if any(printFlag_vec(n)==["meta","pdf","eps","epsc","svg"])
             renderer='-painters';
-        elseif any(strcmp(printFlag_cVec{n},{'png','jpg'}))
+        elseif any(printFlag_vec(n)==["png","jpg"])
             renderer='-opengl';
         end
-        if nargin<3
-           print(['-r',int2str(resolution)],renderer,['-d',printFlag_cVec{n}],['-f',int2str(double(fig_handle_vec(i)))]);
-        else
-           print(['-r',int2str(resolution)],renderer,['-d',printFlag_cVec{n}],['-f',int2str(double(fig_handle_vec(i)))],[filenames{i},'.',pictureFormat_cVec{n}]);
+		args={"-r"+resolution,renderer,"-d"+printFlag_vec(n),"-f"+double(fig_handle_vec(i))};
+        if nargin>=3
+			args=[args,filenames(i)+'.'+pictureFormat_vec(n)]; %#ok<AGROW> 
         end
+		print(args{:});
     end
 end
 
@@ -114,12 +114,12 @@ if nargin>=3
     temp_env=getenv('LD_LIBRARY_PATH');
     setenv('LD_LIBRARY_PATH','')
     
-    if any(strcmpi(pictureFormat_cVec,'pdf'))
+    if any(strcmpi(pictureFormat_vec,'pdf'))
         [status,~]=system('where pdfcrop');
         if status,warning('pdfcrop is not installed. Please install it through TeXLive or MiKTeX.'),end
     end
     
-    if any(strcmpi(pictureFormat_cVec,'png')) || any(strcmpi(pictureFormat_cVec,'jpg'))
+    if any(strcmpi(pictureFormat_vec,'png')) || any(strcmpi(pictureFormat_vec,'jpg'))
         if ispc
             [status,~]=system('where magick');
             if status,warning('Imagemagick is not installed.'),end
@@ -129,14 +129,14 @@ if nargin>=3
         end
     end
 
-    for n=1:length(pictureFormat_cVec)
-        if strcmpi(pictureFormat_cVec{n},'pdf')
+    for n=1:length(pictureFormat_vec)
+        if strcmpi(pictureFormat_vec(n),'pdf')
             for i=1:length(fig_handle_vec)
                system(['pdfcrop "',filenames{i},'.pdf" "',filenames{i},'.pdf"']);
             end
-        elseif any(strcmpi(pictureFormat_cVec{n},{'png','jpg'}))
+        elseif any(strcmpi(pictureFormat_vec(n),["png","jpg"]))
             for i=1:length(fig_handle_vec)
-                system(['magick convert "',filenames{i},'.',pictureFormat_cVec{n},'" -trim "',filenames{i},'.',pictureFormat_cVec{n},'"']);
+                system("magick convert """+filenames(i)+'.'+pictureFormat_vec(n)+""" -trim """+filenames(i)+'.'+pictureFormat_vec(n)+'"');
             end
         end
     end

@@ -5,4 +5,6 @@ file(GLOB_RECURSE SOURCE_FILES FOLLOW_SYMLINKS
     ./*.cpp
 )
 
-add_library(CPP_MEX ${SOURCE_FILES})
+include_directories("$(MATLABROOT)/extern/include")
+
+add_library(CPP_MEX SHARED ${SOURCE_FILES})
